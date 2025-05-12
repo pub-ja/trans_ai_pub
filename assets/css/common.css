@@ -1161,6 +1161,10 @@ table {
 	width: 100%;
 }
 
+.kai-form__content-group .kai-button {
+	margin-left: 0.2rem;
+}
+
 .kai-form__content-group.-w82p {
 	width: 82%;
 }
@@ -1213,6 +1217,8 @@ table {
 	max-height: 200px;
 	overflow-y: auto;
 	display: none;
+	scrollbar-width: thin;
+	scrollbar-color: rgb(118, 118, 118) transparent;
 }
 
 .kai-custom-select__options.-open {
@@ -1963,6 +1969,8 @@ a.kai-button:not(.-disabled) {
   overflow-y: auto;
   min-height: 0; 
 	padding: 0 3.2rem;
+	scrollbar-width: thin;
+	scrollbar-color: rgb(118, 118, 118) transparent;
 }
 
 .kai-form__content-group.-row {

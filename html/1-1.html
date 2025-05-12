@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Korean Air AI번역</title>
+	<link rel="stylesheet" href="../assets/css/common.css" />
+	<link rel="stylesheet" href="../assets/css/components.css" />
+</head>
+<body>
+	<div class="kai-all-wrap">
+		<div class="kai-layout">
+			<header class="kai-header">
+				<h1 class="kai-heading">Korean Air <span>AI 번역</span></h1>
+			</header>
+
+			<main class="kai-main">
+
+				<div class="kai-main-top">
+					<div class="kai-main-top__left">
+						<div class="kai-main-top__request-info">
+							<div class="kai-main-top__request-info-item">
+								<span class="kai-main-top__request-label">요청번호:</span>
+								<span class="kai-main-top__request-number">TR202412010023</span>
+							</div>
+						</div>
+					</div>
+					<div class="kai-main-top__right">
+						<!-- 번역 비교 토글을 checked 하면 [data-target="prompt-container"] 에 -visible 클래스가 토글됩니다.  -->
+						<div class="kai-switch-group">
+							<label class="kai-switch -large" data-control="compare-toggle">
+								<input type="checkbox" class="kai-switch__input" />
+								<span class="kai-switch__track">
+									<span class="kai-switch__text">번역 비교</span>
+									<span class="kai-switch__handler"></span>
+								</span>
+							</label>
+							<!-- 프롬프트 토글을 checked 하면  에 -visible 클래스가 토글됩니다. kai-accordion-group에 -compare-open 클래스가 토글됩니다. -->
+							<label class="kai-switch -large" data-control="prompt-toggle">
+								<input type="checkbox" class="kai-switch__input" />
+								<span class="kai-switch__track">
+									<span class="kai-switch__text">프롬프트</span>
+									<span class="kai-switch__handler"></span>
+								</span>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<!-- 폼박스 -->
+				<div class="kai-main__form-box">
+
+					<!-- 프롬프트 -->
+					<div class="kai-form__container -line -prompt" data-target="prompt-container">
+						<div class="kai-form__content">
+							<div class="kai-form__content-row">
+								<div class="kai-form__content-col">
+									<div class="kai-form__content-item">
+										<div class="kai-form__content-heading">
+											<div class="kai-form-label__wrap">
+												<label class="kai-form-label">
+													문체
+													<span class="kai-form-label__required"></span>
+												</label>
+											</div>
+										</div>
+										<div class="kai-form__content-group">
+											<div class="kai-form__content-group-item -w100p">
+												<div class="kai-form-field">
+													<div class="kai-form-field__item-box kai-custom-select -single" data-has-value="true">
+														<div class="kai-custom-select__trigger kai-form-field__item">
+															<span class="kai-custom-select__placeholder">선택</span>
+															<span class="kai-custom-select__text">기본</span>
+															<span class="kai-custom-select__arrow">
+																<span class="kai-icon -arrow-down"></span>
+															</span>
+														</div>
+														<div class="kai-custom-select__options">
+															<button class="kai-custom-select__option" data-value="기본" data-selected="true">
+																<span>기본</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="밝고 간결하게">
+																<span>밝고 간결하게</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="진중하고 예의있게">
+																<span>진중하고 예의있게</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="kai-form__content-space -w28">
+								</div>
+								<div class="kai-form__content-col">
+									<div class="kai-form__content-item">
+										<div class="kai-form__content-heading -min-width-input">
+											<div class="kai-form-label__wrap">
+												<label class="kai-form-label">
+													대문자 규칙
+													<span class="kai-form-label__required"></span>
+												</label>
+											</div>
+										</div>
+										<div class="kai-form__content-group">
+											<div class="kai-form__content-group-item -w100p">
+												<div class="kai-form-field">
+													<div class="kai-form-field__item-box kai-custom-select -single" data-has-value="true">
+														<div class="kai-custom-select__trigger kai-form-field__item">
+															<span class="kai-custom-select__placeholder">선택</span>
+															<span class="kai-custom-select__text">Sentence style</span>
+															<span class="kai-custom-select__arrow">
+																<span class="kai-icon -arrow-down"></span>
+															</span>
+														</div>
+														<div class="kai-custom-select__options">
+															<button class="kai-custom-select__option" data-value="Sentence style">
+																<span>Sentence style</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="미사용">
+																<span>미사용</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="Title style">
+																<span>Title style</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="kai-form__content-space -group-space">
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="kai-form__content-row">
+								<div class="kai-form__content-col">
+									<div class="kai-form__content-item">
+										<div class="kai-form__content-heading">
+											<div class="kai-form-label__wrap">
+												<label class="kai-form-label">
+													용어 변경
+													<span class="kai-form-label__required"></span>
+												</label>
+											</div>
+										</div>
+										<ul class="kai-form__list">
+											<li class="kai-form__list-item">
+												<div class="kai-form__list-item__add-inner">
+													<div class="kai-form__content-group">
+														<div class="kai-form__content-group-item">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box kai-custom-select -single">
+																	<div class="kai-custom-select__trigger kai-form-field__item">
+																		<span class="kai-custom-select__placeholder">선택하세요</span>
+																		<span class="kai-custom-select__text">선택 텍스트</span>
+																		<span class="kai-custom-select__arrow">
+																			<span class="kai-icon -arrow-down"></span>
+																		</span>
+																	</div>
+																	<div class="kai-custom-select__options">
+																		<button class="kai-custom-select__option" data-value="ko">
+																			<span>ko</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="en">
+																			<span>en</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ja">
+																			<span>ja</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_cn">
+																			<span>zh_cn</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_hk">
+																			<span>zh_hk</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="vi">
+																			<span>vi</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="th">
+																			<span>th</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="es">
+																			<span>es</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="fr">
+																			<span>fr</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="pt_br">
+																			<span>pt_br</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="de">
+																			<span>de</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ru">
+																			<span>ru</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="it">
+																			<span>it</span>
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="kai-form__content-group-item -w100p">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<input type="text" class="kai-form-field__item" placeholder="입력하세요." />
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="kai-form__content-bridge">
+														<span class="kai-icon -arrow-right" aria-hidden="true"> </span>
+													</div>
+													<div class="kai-form__content-group">
+														<div class="kai-form__content-group-item">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box kai-custom-select -single">
+																	<div class="kai-custom-select__trigger kai-form-field__item">
+																		<span class="kai-custom-select__placeholder">선택하세요</span>
+																		<span class="kai-custom-select__text">선택 텍스트</span>
+																		<span class="kai-custom-select__arrow">
+																			<span class="kai-icon -arrow-down"></span>
+																		</span>
+																	</div>
+																	<div class="kai-custom-select__options">
+																		<button class="kai-custom-select__option" data-value="ko">
+																			<span>ko</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="en">
+																			<span>en</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ja">
+																			<span>ja</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_cn">
+																			<span>zh_cn</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_hk">
+																			<span>zh_hk</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="vi">
+																			<span>vi</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="th">
+																			<span>th</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="es">
+																			<span>es</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="fr">
+																			<span>fr</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="pt_br">
+																			<span>pt_br</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="de">
+																			<span>de</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ru">
+																			<span>ru</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="it">
+																			<span>it</span>
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="kai-form__content-group-item -w100p">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<input type="text" class="kai-form-field__item" placeholder="입력하세요." />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="kai-form__button-group">
+													<button class="kai-icon-button">
+														<span class="kai-icon -plus"></span>
+													</button>
+													<button class="kai-icon-button -disabled">
+														<span class="kai-icon -minus"></span>
+													</button>
+												</div>
+											</li>
+											<!-- 
+												+ 버튼 누르면 li 전체 추가
+												버튼에 -disabled 클래스 삭제
+												1개 이하 남으면 -에 -disabled 추가
+											-->
+											<!-- <li class="kai-form__list-item">
+												<div class="kai-form__list-item__add-inner">
+													<div class="kai-form__content-group">
+														<div class="kai-form__content-group-item">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box kai-custom-select -single">
+																	<div class="kai-custom-select__trigger kai-form-field__item">
+																		<span class="kai-custom-select__placeholder">선택하세요</span>
+																		<span class="kai-custom-select__text">선택 텍스트</span>
+																		<span class="kai-custom-select__arrow">
+																			<span class="kai-icon -arrow-down"></span>
+																		</span>
+																	</div>
+																	<div class="kai-custom-select__options">
+																		<button class="kai-custom-select__option" data-value="ko">
+																			<span>ko</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="en">
+																			<span>en</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ja">
+																			<span>ja</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_cn">
+																			<span>zh_cn</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_hk">
+																			<span>zh_hk</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="vi">
+																			<span>vi</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="th">
+																			<span>th</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="es">
+																			<span>es</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="fr">
+																			<span>fr</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="pt_br">
+																			<span>pt_br</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="de">
+																			<span>de</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ru">
+																			<span>ru</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="it">
+																			<span>it</span>
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="kai-form__content-group-item -w100p">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<input type="text" class="kai-form-field__item" placeholder="입력하세요." />
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="kai-form__content-bridge">
+														<span class="kai-icon -arrow-right" aria-hidden="true"> </span>
+													</div>
+													<div class="kai-form__content-group">
+														<div class="kai-form__content-group-item">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box kai-custom-select -single">
+																	<div class="kai-custom-select__trigger kai-form-field__item">
+																		<span class="kai-custom-select__placeholder">선택하세요</span>
+																		<span class="kai-custom-select__text">선택 텍스트</span>
+																		<span class="kai-custom-select__arrow">
+																			<span class="kai-icon -arrow-down"></span>
+																		</span>
+																	</div>
+																	<div class="kai-custom-select__options">
+																		<button class="kai-custom-select__option" data-value="ko">
+																			<span>ko</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="en">
+																			<span>en</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ja">
+																			<span>ja</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_cn">
+																			<span>zh_cn</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="zh_hk">
+																			<span>zh_hk</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="vi">
+																			<span>vi</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="th">
+																			<span>th</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="es">
+																			<span>es</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="fr">
+																			<span>fr</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="pt_br">
+																			<span>pt_br</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="de">
+																			<span>de</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="ru">
+																			<span>ru</span>
+																		</button>
+																		<button class="kai-custom-select__option" data-value="it">
+																			<span>it</span>
+																		</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+														<div class="kai-form__content-group-item -w100p">
+															<div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<input type="text" class="kai-form-field__item" placeholder="입력하세요." />
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="kai-form__button-group">
+													<button class="kai-icon-button">
+														<span class="kai-icon -plus"></span>
+													</button>
+													<button class="kai-icon-button">
+														<span class="kai-icon -minus"></span>
+													</button>
+												</div>
+											</li> -->
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- // 프롬프트 -->
+
+					<!-- 
+					folable-box 기본은 접힌 상태입니다. 
+					언어직접 선택 시에
+					kai-form__container 에 -open 클래스 붙어서 
+					kai-form__content 컨텐츠에 체크박스가 보이게 됩니다.
+					-->
+					<div class="kai-form__container -foldable-box">
+						<div class="kai-form__top">
+							<div class="kai-form__content-row -space-between">
+								<div class="kai-form__content-col">
+									<div class="kai-form__content-item">
+										<div class="kai-form__content-heading">
+											<div class="kai-form-label__wrap">
+												<label class="kai-form-label">
+													번역 언어
+													<span class="kai-form-label__required"></span>
+												</label>
+											</div>
+										</div>
+										<div class="kai-form__content-group -max-w-400">
+											<div class="kai-form__content-group-item">
+												<div class="kai-form-field">
+													<div class="kai-form-field__item-box kai-custom-select -single" data-has-value="true">
+														<div class="kai-custom-select__trigger kai-form-field__item">
+															<span class="kai-custom-select__placeholder">선택</span>
+															<span class="kai-custom-select__text">ko</span>
+															<span class="kai-custom-select__arrow">
+																<span class="kai-icon -arrow-down"></span>
+															</span>
+														</div>
+														<div class="kai-custom-select__options">
+															<button class="kai-custom-select__option" data-value="ko" data-selected="true">
+																<span>ko</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="en">
+																<span>en</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="kai-form__content-bridge">
+												<span class="kai-icon -arrow-right" aria-hidden="true"> </span>
+											</div>
+											<div class="kai-form__content-group-item -w100p">
+												<div class="kai-form-field">
+													<div class="kai-form-field__item-box kai-custom-select -single">
+														<div class="kai-custom-select__trigger kai-form-field__item">
+															<span class="kai-custom-select__placeholder">선택</span>
+															<span class="kai-custom-select__text">선택 텍스트</span>
+															<span class="kai-custom-select__arrow">
+																<span class="kai-icon -arrow-down"></span>
+															</span>
+														</div>
+														<div class="kai-custom-select__options">
+															<button class="kai-custom-select__option" data-value="en">
+																<span>en</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="언어 직접 선택">
+																<span>언어 직접 선택</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="en 번역 후 다국어">
+																<span>en 번역 후 다국어</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="ko > 다국어 전체 번역">
+																<span>ko > 다국어 전체 번역</span>
+															</button>
+															<button class="kai-custom-select__option" data-value="ja 별도 번역(ko>ja)">
+																<span>ja 별도 번역(ko>ja)</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="kai-form__button-group">
+									<!-- 첫페이지 초기화 버튼 제외 -->
+									<!-- <button type="button" class="kai-button -medium -primary-line">초기화</button> -->
+									<button type="button" class="kai-button -medium -primary" data-modal="applyAiTr">번역하기</button>
+								</div>
+							</div>
+						</div>
+						<div class="kai-form__content">
+							<div class="kai-form__content-row">
+								<div class="kai-form__content-col">
+									<div class="kai-form__content-item">
+										<div class="kai-checkbox__group">
+											<label class="kai-checkbox -all-check">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">전체</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true" checked></span>
+												<span class="kai-checkbox__item-text">en</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">zh_cn</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">zh_hk</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">ja</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">th</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">vi</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">ru</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">fr</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">de</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">es</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">it</span>
+											</label>
+											<label class="kai-checkbox">
+												<input type="checkbox" class="kai-checkbox__item" checked />
+												<span class="kai-icon -checkbox" aria-hidden="true"></span>
+												<span class="kai-checkbox__item-text">pt_br</span>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<p class="kai-text -error">에러 메세지입니다.</p>
+					<!-- // folable-box -->
+
+				</div>
+				<!-- // 폼박스 -->
+
+				<div class="kai-main__container">
+					<div class="kai-main__control-box">
+						<div class="kai-main__control-inner -left">
+							<span class="kai-result-text">총 <em>5</em>건</span>
+
+							<!-- 전체 선택 토글버튼 -->
+							<!-- <label class="kai-toggle-button" data-control="all-items">
+								<input type="checkbox" class="kai-toggle-button__input" />
+								<span class="kai-icon -check"></span>
+								<span class="kai-toggle-button__text -active">전체 해제</span>
+								<span class="kai-toggle-button__text">전체 선택</span>
+							</label> -->
+							<!-- // 전체 선택 토글버튼 -->
+
+						</div>
+						<div class="kai-main__control-inner -right">
+							<div class="kai-form__button-group">
+								<button type="button" class="kai-button -medium -line -icon-button">
+									<span class="kai-icon -sheet"></span>
+									스프레드 시트로 보기
+									<span class="kai-icon -arrow-right"></span>
+								</button>
+							</div>
+							<label class="kai-switch -extra -small" data-control="all-accordion">
+								<input type="checkbox" class="kai-switch__input" checked />
+								<span class="kai-switch__track">
+									<span class="kai-switch__handler"></span>
+								</span>
+								<span class="kai-switch__text">전체열기</span>
+							</label>
+						</div>
+					</div>
+
+					<!-- 
+					kai-accordion-group 타입 
+
+					-use-checkbox 클래스 추가 : 체크박스 마크업 view 
+					체크 박스 view 에서 
+					패딩값이 달라서 클래스가 함께 추가 되어야 합니다. 참고 부탁드립니다.
+
+					-compare-open 클래스 추가 : wcm,hp 버전 view (상단 번역 비교 스위치에서 토글)
+					-->
+					<div class="kai-accordion-group">
+						<div class="kai-accordion-item -open">
+							<div class="kai-accordion-header">
+								<div class="kai-accordion-header__inner -left">
+									<label class="kai-checkbox -large">
+										<input type="checkbox" class="kai-checkbox__item" />
+										<span class="kai-icon -checkbox" aria-hidden="true"></span>
+										<span class="kai-checkbox__item-text">W041547</span>
+									</label>
+									<span class="kai-accordion-header__text">W041547</span>
+								</div>
+								<div class="kai-accordion-header__inner -right">
+									<button class="kai-accordion__toggle">
+										<span class="kai-icon -arrow-down"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-accordion-content">
+
+								<!-- 언어별 -main, -compare 2개로 그룹입니다. 
+								번역 비교일때 -compare 영역이 보여집니다. -->
+								<!-- ko -->
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">ko</span>
+										</label>
+										<span class="kai-label-code-text">ko</span>
+									</div>
+									<div class="kai-form-field kai-language-form">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">항공권 변경 완료 | 대한항공</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">항공권 변경 완료 | 대한항공</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<!-- 데이터가 있는 경우 
+										<p class="kai-text -secondary">항공권 변경 완료 | 대한항공</p>
+										-->
+										<!-- 데이터가 없는 경우 -->
+										<p class="kai-text -data-none">데이터 없음</p>
+									</div>
+								</div>
+								<!-- //ko -->
+
+							</div>
+						</div>
+						<div class="kai-accordion-item -open">
+							<div class="kai-accordion-header">
+								<div class="kai-accordion-header__inner -left">
+									<label class="kai-checkbox -large">
+										<input type="checkbox" class="kai-checkbox__item" />
+										<span class="kai-icon -checkbox" aria-hidden="true"></span>
+										<span class="kai-checkbox__item-text">W041548</span>
+									</label>
+									<span class="kai-accordion-header__text">W041548</span>
+								</div>
+								<div class="kai-accordion-header__inner -right">
+									<button class="kai-accordion__toggle">
+										<span class="kai-icon -arrow-down"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-accordion-content">
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">ko</span>
+										</label>
+										<span class="kai-label-code-text">ko</span>
+									</div>
+									<div class="kai-form-field kai-language-form">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">가까운 날짜 함께 조회</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">가까운 날짜 함께 조회</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">가까운 날짜 함께 조회</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="kai-accordion-item -open">
+							<div class="kai-accordion-header">
+								<div class="kai-accordion-header__inner -left">
+									<label class="kai-checkbox -large">
+										<input type="checkbox" class="kai-checkbox__item" />
+										<span class="kai-icon -checkbox" aria-hidden="true"></span>
+										<span class="kai-checkbox__item-text">W041549</span>
+									</label>
+									<span class="kai-accordion-header__text">W041549</span>
+								</div>
+								<div class="kai-accordion-header__inner -right">
+									<button class="kai-accordion__toggle">
+										<span class="kai-icon -arrow-down"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-accordion-content">
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">ko</span>
+										</label>
+										<span class="kai-label-code-text">ko</span>
+									</div>
+									<div class="kai-form-field kai-language-form">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요."
+												rows="1">목적지의 보너스 좌석 상황을 이메일로 알려드려요</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">목적지의 보너스 좌석 상황을 이메일로 알려드려요</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">목적지의 보너스 좌석 상황을 이메일로 알려드려요</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="kai-accordion-item -open">
+							<div class="kai-accordion-header">
+								<div class="kai-accordion-header__inner -left">
+									<label class="kai-checkbox -large">
+										<input type="checkbox" class="kai-checkbox__item" />
+										<span class="kai-icon -checkbox" aria-hidden="true"></span>
+										<span class="kai-checkbox__item-text">W041550</span>
+									</label>
+									<span class="kai-accordion-header__text">W041550</span>
+								</div>
+								<div class="kai-accordion-header__inner -right">
+									<button class="kai-accordion__toggle">
+										<span class="kai-icon -arrow-down"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-accordion-content">
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">ko</span>
+										</label>
+										<span class="kai-label-code-text">ko</span>
+									</div>
+									<div class="kai-form-field kai-language-form">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">보너스 좌석 알리미</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">보너스 좌석 알리미</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">보너스 좌석 알리미</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="kai-accordion-item -open">
+							<div class="kai-accordion-header">
+								<div class="kai-accordion-header__inner -left">
+									<label class="kai-checkbox -large">
+										<input type="checkbox" class="kai-checkbox__item" />
+										<span class="kai-icon -checkbox" aria-hidden="true"></span>
+										<span class="kai-checkbox__item-text">W041551</span>
+									</label>
+									<span class="kai-accordion-header__text">W041551</span>
+								</div>
+								<div class="kai-accordion-header__inner -right">
+									<button class="kai-accordion__toggle">
+										<span class="kai-icon -arrow-down"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-accordion-content">
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">ko</span>
+										</label>
+										<span class="kai-label-code-text">ko</span>
+									</div>
+									<div class="kai-form-field kai-language-form">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">가는 달 ~ 오는 달</textarea>
+										</div>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">가는 달 ~ 오는 달</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">가는 달 ~ 오는 달</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- <div class="kai-main-bottom">
+					<div class="kai-main-bottom__container">
+						<div class="kai-main-bottom__left">
+							<button type="button" class="kai-button -large -primary-line">리뷰요청</button>
+						</div>
+						<div class="kai-main-bottom__right">
+							<ul class="">
+								<li></li>
+							</ul>
+							<div class="kai-button-group">
+								<button type="button" class="kai-button -large -primary-line">저장하기</button>
+								<button type="button" class="kai-button -large -primary" data-modal="applyModal">즉시반영</button>
+							</div>
+						</div>
+					</div>
+				</div> -->
+			</main>
+
+			<!-- 다이얼로그 -->
+			<div class="kai-modal-root" data-open="false">
+				<div class="kai-modal__mask"></div>
+				<div class="kai-modal__wrap">
+					<div class="kai-modal-item -medium" id="applyAiTr">
+						<div class="kai-modal__container">
+							<div class="kai-modal__header">
+								<h2 class="kai-modal__header-title">번역 요청 제목</h2>
+								<button type="button" class="kai-modal__button-close  kai-modal__close">
+									<span class="kai-icon -close"></span>
+								</button>
+							</div>
+							<div class="kai-modal__content">
+								<div class="kai-form__content-group -row">
+									<div class="kai-form-label__wrap">
+										<label class="kai-form-label">
+											요청번호 <span class="kai-text -bold">TR202412010023</span> 번역 저장
+											<span class="kai-form-label__required"></span>
+										</label>
+									</div>
+									<div class="kai-form-field">
+										<div class="kai-form-field__item-box">
+											<input type="text" class="kai-form-field__item" placeholder="제목 입력 (한글 50자 이내).">
+										</div>
+									</div>
+									<p class="kai-text -error -small">제목을 입력 해주세요.</p>
+								</div>
+							</div>
+							<div class="kai-modal__footer">
+								<div class="kai-form__button-group">
+									<button type="button" class="kai-button -large -primary-line kai-modal__close">취소</button>
+									<button type="button" class="kai-button -large -primary">저장</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="../assets/js/common.js"></script>
+		<script src="../assets/js/components.js"></script>
+</body>
+</html>

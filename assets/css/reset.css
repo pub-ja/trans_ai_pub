@@ -1,0 +1,395 @@
+
+@charset "utf-8";
+
+/* =================================== */
+/* Font Face */
+/* =================================== */
+
+@font-face {
+	font-family: 'HanjinGroupSans KR';
+	font-style: normal;
+	font-weight: 300;
+	src:
+		local('HanjinGroupSans-Light'),
+		url('../font/woff/HanjinGroupSans-Light.woff') format('woff'),
+		url('../font/woff2/HanjinGroupSans-Light.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'HanjinGroupSans KR';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		local('HanjinGroupSans-Regular'),
+		url('../font/woff/HanjinGroupSans-Regular.woff') format('woff'),
+		url('../font/woff2/HanjinGroupSans-Regular.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'HanjinGroupSans KR';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		local('HanjinGroupSans-Bold'),
+		url('../font/woff/HanjinGroupSans-Bold.woff') format('woff'),
+		url('../font/woff2/HanjinGroupSans-Bold.woff2') format('woff2');
+}
+
+/* =================================== */
+/* Design-system Variables */
+/* =================================== */
+
+:root {
+	font-size: 62.5%;
+
+	/* Brand Colors */
+	--color-brand-darkblue-40: #9ba2c2;
+	--color-brand-darkblue-60: #6974a3;
+	--color-brand-darkblue-80: #000e4b;
+	--color-brand-darkblue-100: #051766;
+	--color-brand-lightblue-10: #eef8fd;
+	--color-brand-lightblue-100: #57BBEB;
+
+	/* wcm Color */
+	--color-wcm-main-blue: #1c4b8b;
+
+	/* Neutral Colors */
+	--color-neutral-10: #ffffff;
+	--color-neutral-20: #f7f7f7;
+	--color-neutral-30: #ededed;
+	--color-neutral-40: #d9d9d9;
+	--color-neutral-50: #bdbdbd;
+	--color-neutral-60: #a4a4a4;
+	--color-neutral-70: #5e5e5e;
+	--color-neutral-80: #333333;
+	--color-neutral-90: #252525;
+	--color-neutral-90-alpha40: #00000066;
+	--color-neutral-100: #000000;
+
+	/* System Colors */
+	--color-red-100: #da291c;
+	--color-orange-100: #c84300;
+	--color-orange-200: #b33c00;
+	--color-green-100: #28794e;
+	--color-green-200: #086a36;
+	--color-lightgreen-200: #dff5e5;
+	--color-lightorange-200: #ffe8c9;
+
+	--color-text-body: var(--color-brand-darkblue-100);
+	--color-text-body-inverse: var(--color-neutral-10);
+	--color-text-secondary: var(--color-neutral-80);
+	--color-text-tertiary: var(--color-neutral-70);
+
+	/* Background Colors */
+	--color-background: var(--color-neutral-10);
+	--color-background-alt: var(--color-neutral-20);
+	--color-background-lightgray: var(--color-neutral-20);
+	--color-background-dark: var(--color-neutral-80);
+	--color-background-lightblue: var(--color-brand-lightblue-10);
+	--color-background-accent-blue: var(--color-wcm-main-blue);
+	--field-background-aria-disabled: var(--color-neutral-20);
+	--color-background-th: #F8F9FC;
+
+	/* Border Colors */
+	--color-border: var(--color-neutral-40);
+	--color-border-accent-blue: var(--color-wcm-main-blue);
+	--color-border-primary: var(--color-brand-darkblue-100);
+	--color-border-light: var(--color-neutral-30);
+	--color-border-dark: var(--color-neutral-40);
+	--color-border-primary-light: #c6dbe6;
+
+	/* layout */
+	--container-max-width: 120rem;
+
+	/* elements */
+
+	--radius-input-field: 0.4rem;
+	--radius-button: 0.6rem;
+	--radius-full: 99.9rem;
+
+	--form-padding: 0.5rem 1rem;
+}
+
+/* =================================== */
+/* Common Styles */
+/* =================================== */
+
+html {
+	height: 100%;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	overflow: auto;
+	margin: 0;
+	font-size: 1.4rem;
+	line-height: 1.5;
+	word-break: break-word;
+	-webkit-text-size-adjust: none;
+	color: var(--color-text-body);
+}
+
+[lang*='ko'] body {
+	word-break: keep-all;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+	font-family: 'HanjinGroupSans KR', 'Noto Sans', sans-serif, Verdana, Arial !important;
+}
+
+:lang(ko) body,
+:lang(ko) button,
+:lang(ko) input,
+:lang(ko) select,
+:lang(ko) textarea {
+	font-family: 'HanjinGroupSans KR', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
+}
+
+:lang(ja) body,
+:lang(ja) button,
+:lang(ja) input,
+:lang(ja) select,
+:lang(ja) textarea {
+	font-family:
+		Meiryo,
+		YuGothic,
+		Yu Gothic UI,
+		Osaka,
+		sans-serif !important;
+}
+
+:lang(zh-CN) body,
+:lang(zh-CN) button,
+:lang(zh-CN) input,
+:lang(zh-CN) select,
+:lang(zh-CN) textarea {
+	font-family:
+		'Microsoft YaHei', 'Heiti SC', Verdana, PMingLiU, Arial, Helvetica, sans-serif !important;
+}
+
+:lang(zh-HK) body,
+:lang(zh-HK) button,
+:lang(zh-HK) input,
+:lang(zh-HK) select,
+:lang(zh-HK) textarea {
+	font-family:
+		'Microsoft JhengHei', 'Heiti  TC', Verdana, PMingLiU, Arial, Helvetica, sans-serif !important;
+}
+
+/* =================================== */
+/* Reset */
+/* =================================== */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+button {
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+ul,
+ol {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='search'],
+input[type='password'] {
+	word-break: normal;
+}
+
+button,
+input[type='text'],
+input[type='password'],
+select,
+textarea {
+	line-height: 1.5;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+}
+
+input[type="date"]::-moz-calendar-picker-indicator,
+input[type="time"]::-moz-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+}
+
+input[type="date"]::-ms-input-placeholder,
+input[type="time"]::-ms-input-placeholder
+ {
+  opacity: 0;
+  display: none;
+}
+
+input,
+button {
+	outline: none;
+	-webkit-appearance: none;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+
+:lang(ko) body,
+:lang(ko) button,
+:lang(ko) input,
+:lang(ko) select,
+:lang(ko) textarea {
+	font-family: 'HanjinGroupSans KR', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
+}
+
+:lang(ja) body,
+:lang(ja) button,
+:lang(ja) input,
+:lang(ja) select,
+:lang(ja) textarea {
+	font-family:
+		Meiryo,
+		YuGothic,
+		Yu Gothic UI,
+		Osaka,
+		sans-serif !important;
+}
+
+:lang(zh-CN) body,
+:lang(zh-CN) button,
+:lang(zh-CN) input,
+:lang(zh-CN) select,
+:lang(zh-CN) textarea {
+	font-family:
+		'Microsoft YaHei', 'Heiti SC', Verdana, PMingLiU, Arial, Helvetica, sans-serif !important;
+}
+
+:lang(zh-HK) body,
+:lang(zh-HK) button,
+:lang(zh-HK) input,
+:lang(zh-HK) select,
+:lang(zh-HK) textarea {
+	font-family:
+		'Microsoft JhengHei', 'Heiti  TC', Verdana, PMingLiU, Arial, Helvetica, sans-serif !important;
+}
+
+/* =================================== */
+/* Design-system Variables */
+/* =================================== */
+
+:root {
+	font-size: 62.5%;
+
+	/* Brand Colors */
+	--color-brand-darkblue-40: #9ba2c2;
+	--color-brand-darkblue-60: #6974a3;
+	--color-brand-darkblue-80: #000e4b;
+	--color-brand-darkblue-100: #051766;
+	--color-brand-lightblue-10: #eef8fd;
+	--color-brand-lightblue-100: #57BBEB;
+
+	/* wcm Color */
+	--color-wcm-main-blue: #1c4b8b;
+
+	/* Neutral Colors */
+	--color-neutral-10: #ffffff;
+	--color-neutral-20: #f7f7f7;
+	--color-neutral-30: #ededed;
+	--color-neutral-40: #d9d9d9;
+	--color-neutral-50: #bdbdbd;
+	--color-neutral-60: #a4a4a4;
+	--color-neutral-70: #5e5e5e;
+	--color-neutral-80: #333333;
+	--color-neutral-90: #252525;
+	--color-neutral-90-alpha40: #00000066;
+	--color-neutral-100: #000000;
+
+	/* System Colors */
+	--color-red-100: #da291c;
+	--color-orange-100: #c84300;
+	--color-orange-200: #b33c00;
+	--color-green-100: #28794e;
+	--color-green-200: #086a36;
+	--color-lightgreen-200: #dff5e5;
+	--color-lightorange-200: #ffe8c9;
+
+	--color-text-body: var(--color-brand-darkblue-100);
+	--color-text-body-inverse: var(--color-neutral-10);
+	--color-text-secondary: var(--color-neutral-80);
+	--color-text-tertiary: var(--color-neutral-70);
+
+	/* Background Colors */
+	--color-background: var(--color-neutral-10);
+	--color-background-alt: var(--color-neutral-20);
+	--color-background-lightgray: var(--color-neutral-20);
+	--color-background-dark: var(--color-neutral-80);
+	--color-background-lightblue: var(--color-brand-lightblue-10);
+	--color-background-accent-blue: var(--color-wcm-main-blue);
+	--field-background-aria-disabled: var(--color-neutral-20);
+	--color-background-th: #F8F9FC;
+
+	/* Border Colors */
+	--color-border: var(--color-neutral-40);
+	--color-border-accent-blue: var(--color-wcm-main-blue);
+	--color-border-primary: var(--color-brand-darkblue-100);
+	--color-border-light: var(--color-neutral-30);
+	--color-border-dark: var(--color-neutral-40);
+	--color-border-primary-light: #c6dbe6;
+
+	/* layout */
+	--container-max-width: 120rem;
+
+	/* elements */
+
+	--radius-input-field: 0.4rem;
+	--radius-button: 0.6rem;
+	--radius-full: 99.9rem;
+
+	--form-padding: 0.5rem 1rem;
+}
+
+._hidden {
+	overflow: hidden;
+	white-space: nowrap;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.-max-w-400 {
+	max-width: 40rem;
+}

@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleAll.addEventListener('change', function () {
             const isChecked = this.checked;
             const toggleButton = this.closest('.kai-toggle-button');
-            toggleButton.classList.remove('is-active');
             toggleButton.classList.toggle('-active', isChecked);
 
             const accordionCheckboxes = document.querySelectorAll('.kai-accordion-group .kai-checkbox input');
@@ -194,25 +193,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (options) {
                     options.setAttribute('data-open', 'false');
                 }
-            });
-        }
-    });
-
-    // ===================================
-    // Form Field Functionality
-    // ===================================
-
-    // 폼 필드 기본 동작
-    const formFields = document.querySelectorAll('.kai-form-field');
-    formFields.forEach(field => {
-        const input = field.querySelector('.kai-form-field__input');
-        if (input) {
-            input.addEventListener('focus', function () {
-                field.classList.add('focused');
-            });
-
-            input.addEventListener('blur', function () {
-                field.classList.remove('focused');
             });
         }
     });
@@ -455,18 +435,125 @@ document.addEventListener('DOMContentLoaded', function () {
         options.setAttribute('data-open', 'false');
     }
 
-    // 텍스트에리어 자동 높이 조절
+    // ===================================
+    // Textarea Height Adjustment
+    // ===================================
+    
+    // textarea 높이 자동 조절 함수
     function adjustTextareaHeight(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
+        const parentBox = textarea.closest('.kai-form-field__item-box');
+        // -fixed-height 클래스가 있는 경우 높이 조절하지 않음
+        if (!parentBox || !parentBox.classList.contains('-fixed-height')) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
     }
 
-    // 텍스트에리어 이벤트 리스너
+    // textarea 높이 자동 조절 이벤트 리스너
     document.querySelectorAll('.kai-form-field__item').forEach(textarea => {
+        // 초기 높이 설정
         adjustTextareaHeight(textarea);
+        
+        // input 이벤트로 높이 자동 조절
         textarea.addEventListener('input', () => adjustTextareaHeight(textarea));
+        
+        // resize 이벤트로 높이 자동 조절
         window.addEventListener('resize', () => adjustTextareaHeight(textarea));
     });
+
+    // ===================================
+    // Bottom Sheet Functionality
+    // ===================================
+
+    // 토글 버튼 이벤트 처리
+    const toggleButtons = document.querySelectorAll('.kai-toggle-icon-button');
+    toggleButtons.forEach(button => {
+        const input = button.querySelector('input[type="checkbox"]');
+        
+        input.addEventListener('change', function() {
+            // -checked 클래스 토글
+            if (this.checked) {
+                button.classList.add('-checked');
+            } else {
+                button.classList.remove('-checked');
+            }
+        });
+    });
+
+    // 바텀시트 토글 이벤트 처리
+    const bottomSheetToggleButtons = document.querySelectorAll('.kai-toggle-icon-button[data-target="additional-sheet"]');
+    bottomSheetToggleButtons.forEach(button => {
+        const input = button.querySelector('input[type="checkbox"]');
+        
+        input.addEventListener('change', function() {
+            const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
+            const layout = document.querySelector('.kai-layout');
+            
+            if (this.checked) {
+                additionalSheet.classList.add('-open');
+                // 기본 bottom 높이 가져오기
+                const mainBottom = document.querySelector('.kai-main-bottom:not(.-additional-sheet)');
+                const mainBottomHeight = mainBottom.offsetHeight;
+                // additional-sheet의 위치를 기본 bottom의 높이만큼 조정
+                additionalSheet.style.bottom = mainBottomHeight + 'px';
+                
+                // 모든 kai-main-bottom의 높이 합계 계산
+                const mainBottoms = document.querySelectorAll('.kai-main-bottom');
+                let totalHeight = 0;
+                mainBottoms.forEach(bottom => {
+                    totalHeight += bottom.offsetHeight;
+                });
+                
+                // 1rem을 픽셀로 변환 (기본값 16px)
+                const oneRem = 16;
+                
+                // kai-layout의 하단 패딩을 모든 bottom 높이 합 + 1rem으로 설정
+                layout.style.paddingBottom = (totalHeight + oneRem) + 'px';
+
+                // 바텀시트가 완전히 열린 후 패딩 재계산
+                additionalSheet.addEventListener('transitionend', function handler() {
+                    // 모든 kai-main-bottom의 높이 합계 재계산
+                    let recalculatedHeight = 0;
+                    mainBottoms.forEach(bottom => {
+                        recalculatedHeight += bottom.offsetHeight;
+                    });
+                    // kai-layout의 하단 패딩을 재계산된 높이 + 1rem으로 설정
+                    layout.style.paddingBottom = (recalculatedHeight + oneRem) + 'px';
+                    additionalSheet.removeEventListener('transitionend', handler);
+                });
+
+            } else {
+                additionalSheet.classList.remove('-open');
+                // additional-sheet의 위치 초기화
+                additionalSheet.style.bottom = '';
+                // kai-layout의 하단 패딩 초기화
+                layout.style.paddingBottom = '';
+            }
+        });
+    });
+
+    // 바텀시트 닫기 버튼 이벤트 처리
+    const closeButton = document.querySelector('.kai-main-bottom-sheet__button-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', function () {
+            const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
+            const layout = document.querySelector('.kai-layout');
+            
+            // 바텀시트 닫기
+            additionalSheet.classList.remove('-open');
+            additionalSheet.style.bottom = '';
+            layout.style.paddingBottom = '';
+
+            // 모든 토글 버튼 상태 해제
+            document.querySelectorAll('.kai-toggle-icon-button[data-target="additional-sheet"]').forEach(toggleButton => {
+                toggleButton.classList.remove('-checked');
+                const input = toggleButton.querySelector('input[type="checkbox"]');
+                if (input) {
+                    input.checked = false;
+                }
+            });
+        });
+    }
 
     // ===================================
     // Initialization

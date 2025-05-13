@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Korean Air AI번역</title>
 	<link rel="stylesheet" href="../assets/css/common.css" />
-	<link rel="stylesheet" href="../assets/css/components.css" />
+	
 </head>
 <body>
 	<div class="kai-all-wrap">
@@ -1595,395 +1595,49 @@
 				</div>
 			</div>
 
-			<!-- 리뷰 요청 -->
-			<div class="kai-modal-root" data-open="false">
+			<!-- 즉시반영 모달 -->
+			<div class="kai-modal-root" data-open="true">
 				<div class="kai-modal__mask"></div>
 				<div class="kai-modal__wrap">
-					<div class="kai-modal-item -large" id="reviewRequestModal">
+					<div class="kai-modal-item -medium" id="applyModal">
 						<div class="kai-modal__container">
 							<div class="kai-modal__header">
-								<h2 class="kai-modal__header-title">리뷰 요청</h2>
+								<h2 class="kai-modal__header-title">즉시반영</h2>
 								<button type="button" class="kai-modal__button-close kai-modal__close">
 									<span class="kai-icon -close"></span>
 								</button>
 							</div>
-							<div class="kai-modal__content">
-
-								<div class="kai-form-table__wrap">
-									<table class="kai-form-table">
-										<colgroup>
-											<col style="width: 18rem">
-											<col>
-										</colgroup>
-										<tbody>
-											<tr>
-												<th><label class="kai-form-label">리뷰 제목 <span class="kai-form-label__required">*</span></label>
-												</th>
-												<td>
-													<div class="kai-form-field">
-														<div class="kai-form-field__item-box">
-															<input type="text" class="kai-form-field__item" placeholder="제목 입력 (한글 50자 이내)">
-														</div>
-													</div>
-													<!-- <p class="kai-text -error -small">제목을 입력 해주세요.</p> -->
-												</td>
-											</tr>
-											<tr>
-												<th><label class="kai-form-label">리뷰 대상 <span class="kai-form-label__required">*</span></label>
-												</th>
-												<td>
-													<div class="kai-form__content-group -row -align-flex-start">
-														<div class="kai-form__content-group-item">
-															<div class="kai-form-field">
-																<div class="kai-form-field__item-box kai-custom-select -multiple">
-																	<div class="kai-custom-select__trigger kai-form-field__item">
-																		<span class="kai-custom-select__placeholder">전체선택</span>
-																		<span class="kai-custom-select__text"></span>
-																		<span class="kai-custom-select__arrow"><span
-																				class="kai-icon -arrow-down"></span></span>
-																	</div>
-																	<div class="kai-custom-select__options">
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="W041547" />
-																			<span>W041547</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="W041548" />
-																			<span>W041548</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="W041550" />
-																			<span>W041550</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="W041551" />
-																			<span>W041551</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="W041552" />
-																			<span>W041552</span>
-																		</label>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="kai-form__content-group-item">
-															<!-- 태그 리스트 -->
-															<div class="kai-tag-list">
-																<span class="kai-tag">
-																	W041547
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	W041548
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	W041549
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	W041550
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-															</div>
-															<!-- // 태그 리스트 -->
-														</div>
-													</div>
-													<!-- <p class="kai-text -error -small">리뷰 대상을 선택해 주세요.</p> -->
-												</td>
-											</tr>
-											<tr>
-												<th><label class="kai-form-label">리뷰 언어 <span class="kai-form-label__required">*</span></label>
-												</th>
-												<td>
-													<div class="kai-form__content-group -row -align-flex-start">
-														<div class="kai-form__content-group-item">
-															<div class="kai-form-field">
-																<div class="kai-form-field__item-box kai-custom-select -multiple">
-																	<div class="kai-custom-select__trigger kai-form-field__item">
-																		<span class="kai-custom-select__placeholder">전체 선택</span>
-																		<span class="kai-custom-select__text"></span>
-																		<span class="kai-custom-select__arrow"><span
-																				class="kai-icon -arrow-down"></span></span>
-																	</div>
-																	<div class="kai-custom-select__options">
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="en" />
-																			<span>en</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="ja" />
-																			<span>ja</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="zh_cn" />
-																			<span>zh_cn</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="zh_hk" />
-																			<span>zh_hk</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="vi" />
-																			<span>vi</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="th" />
-																			<span>th</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="es" />
-																			<span>es</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="fr" />
-																			<span>fr</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="pt_br" />
-																			<span>pt_br</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="de" />
-																			<span>de</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="ru" />
-																			<span>ru</span>
-																		</label>
-																		<label class="kai-custom-select__option" data-selected="true">
-																			<input type="checkbox" value="it" />
-																			<span>it</span>
-																		</label>
-																	</div>
-																</div>
-															</div>
-														</div>
-														<div class="kai-form__content-group-item">
-															<!-- 태그 리스트 -->
-															<div class="kai-tag-list">
-																<span class="kai-tag">
-																	en
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	ja
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	zh_cn
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	zh_hk
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	vi
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	th
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	es
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	fr
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	pt_br
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	de
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	ru
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-																<span class="kai-tag">
-																	it
-																	<button type="button" class="kai-tag__remove">
-																		<span class="kai-icon -delete"></span>
-																		<span class="_hidden">삭제</span>
-																	</button>
-																</span>
-															</div>
-															<!-- // 태그 리스트 -->
-														</div>
-													</div>
-													<!-- <p class="kai-text -error -small">리뷰 언어를 선택해 주세요.</p> -->
-												</td>
-											</tr>
-											<tr>
-												<th><label class="kai-form-label">리뷰 기한 <span class="kai-form-label__required">*</span></label>
-												</th>
-												<td>
-													<div class="kai-form__content-group">
-														<div class="kai-form__content-group-item">
-															<div class="kai-form-field">
-																<div class="kai-form-field__item-box -date">
-																	<input type="date" class="kai-form-field__item" placeholder="선택">
-																	<span class="kai-icon"></span>
-																</div>
-															</div>
-														</div>
-														<div class="kai-form__content-group-item">
-															<div class="kai-form-field">
-																<div class="kai-form-field__item-box -time">
-																	<input type="time" class="kai-form-field__item" placeholder="선택">
-																	<span class="kai-icon"></span>
-																</div>
-															</div>
-														</div>
-													</div>
-													<p class="kai-text -error -small">에러 메세지입니다.</p>
-												</td>
-											</tr>
-											<tr>
-												<th>
-													<label class="kai-form-label">파일 첨부</label>
-													<p class="kai-text -small">(최대 10개, 10Mb까지)</p>
-												</th>
-												<td>
-													<ul class="kai-form__list">
-														<li class="kai-form__list-item">
-															<div class="kai-form__list-item__add-inner">
-																<div class="kai-form__content-group">
-																	<div class="kai-form__content-group-item -w100p">
-																		<div class="kai-form-field">
-																			<div class="kai-form-field__item-box -readonly">
-																				<input type="text" class="kai-form-field__item" placeholder="파일을 선택해주세요."
-																					value="file-test.png">
-																			</div>
-																		</div>
-																	</div>
-																	<button type="button" class="kai-button -line -medium">파일찾기</button>
-																</div>
-															</div>
-															<div class="kai-form__button-group">
-																<button class="kai-icon-button">
-																	<span class="kai-icon -plus"></span>
-																</button>
-																<button class="kai-icon-button">
-																	<span class="kai-icon -minus"></span>
-																</button>
-															</div>
-														</li>
-														<li class="kai-form__list-item">
-															<div class="kai-form__list-item__add-inner">
-																<div class="kai-form__content-group">
-																	<div class="kai-form__content-group-item -w100p">
-																		<div class="kai-form-field">
-																			<div class="kai-form-field__item-box -readonly">
-																				<input type="text" class="kai-form-field__item" placeholder="-">
-																			</div>
-																		</div>
-																	</div>
-																	<button type="button" class="kai-button -line -medium">파일찾기</button>
-																</div>
-															</div>
-															<div class="kai-form__button-group">
-																<button class="kai-icon-button">
-																	<span class="kai-icon -plus"></span>
-																</button>
-																<button class="kai-icon-button">
-																	<span class="kai-icon -minus"></span>
-																</button>
-															</div>
-														</li>
-														<!-- 
-															+ 버튼 누르면 li 전체 추가
-															버튼에 -disabled 클래스 삭제
-															1개 이하 남으면 -에 -disabled 추가
-														-->
-													</ul>
-												</td>
-											</tr>
-											<tr>
-												<th><label class="kai-form-label">메모</label></th>
-												<td>
-													<div class="kai-form-field">
-														<div class="kai-form-field__item-box">
-															<textarea class="kai-form-field__item" placeholder="메모 입력"></textarea>
-														</div>
-													</div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-
-								<div class="kai-form-table__bottom">
-									<p class="kai-text -error -icon -small">
-										<span class="kai-icon -info"></span>
-										W041548, W041550 은 이미 리뷰가 진행중입니다. 리뷰가 진행중인 번호는 삭제하고 요청해주세요.
-									</p>
+							<div class="kai-modal__content -row">
+								<p class="kai-modal__text">선택한 내용을 홈페이지 및 TM에 반영하시겠습니까?</p>
+								<div class="kai-form__box">
+									<div class="kai-checkbox__group  -align-center">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" checked />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">홈페이지 반영</span>
+										</label>
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" checked />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">TM 반영</span>
+										</label>
+									</div>
 								</div>
 							</div>
 							<div class="kai-modal__footer">
 								<div class="kai-form__button-group">
-									<button type="button" class="kai-button -large -primary">리뷰 요청</button>
+									<button type="button" class="kai-button -large -primary-line kai-modal__close">취소</button>
+									<button type="button" class="kai-button -large -primary">확인</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 
-		<script src="../assets/js/common.js"></script>
+		
 		<script src="../assets/js/components.js"></script>
 </body>
 </html>

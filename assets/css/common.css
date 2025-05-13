@@ -1,26 +1,6 @@
 @charset "utf-8";
 @import url(./reset.css);
 
-.kai-form__container.-foldable-box .kai-form__content-group.-max-w-400{
-	max-width: 100%;
-}
-
-@media (min-width: 690px) {
-	.kai-form__container.-foldable-box .kai-form__content-group.-max-w-400{
-	max-width: 40rem;
-	}
-}
-
-.kai-form__content-flex {
-	display: flex;
-	align-items: center;
-	min-height: 3.4rem;
-}
-
-.kai-all-wrap {
-	/* min-width: 96rem; */
-}
-
 .kai-layout {
 	display: flex;
 	flex-direction: column;
@@ -33,6 +13,15 @@
 	padding: 3.2rem 2rem 8rem;
 }
 
+.kai-main-top,
+.kai-main__form-box,
+.kai-main__container {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var(--container-max-width);
+}
+
 /* Header Styles */
 .kai-header {
 	display: flex;
@@ -40,15 +29,6 @@
 	align-items: center;
 	width: 100%;
 	margin-bottom: 3.2rem;
-	margin-left: auto;
-	margin-right: auto;
-	max-width: var(--container-max-width);
-}
-
-.kai-main-top,
-.kai-main__form-box,
-.kai-main__container {
-	width: 100%;
 	margin-left: auto;
 	margin-right: auto;
 	max-width: var(--container-max-width);
@@ -166,7 +146,6 @@
 	}
 }
 
-
 .kai-main-bottom.-additional-sheet {
 	display: none;
 	z-index: 100;
@@ -208,6 +187,7 @@
 
 .kai-button-group {
 	display: flex;
+	justify-content: flex-end;
 	gap: 1.2rem;
 }
 
@@ -409,7 +389,19 @@
 	content:'';
 }
 
-/* Form Field Base Styles */
+.kai-form-field {
+	position: relative;
+	width: 100%;
+}
+
+.kai-form-field__label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-size: 0.875rem;
+	color: #333;
+	font-weight: 500;
+}
+
 .kai-form-field__item[type='text'],
 .kai-form-field__item {
 	width: 100%;
@@ -499,10 +491,6 @@
 	min-height: 2.2rem;
 }
 
-.kai-custom-select__placeholder {
-	color: var(--color-text-tertiary);
-}
-
 .kai-form-field__item-box:hover {
 	border-color: var(--color-border-primary);
 }
@@ -522,6 +510,10 @@
 
 .kai-form-field__item-box.-aria-disabled:hover {
 	border-color: var(--color-border);
+}
+
+.kai-custom-select__placeholder {
+	color: var(--color-text-tertiary);
 }
 
 .kai-custom-select__trigger {
@@ -919,12 +911,6 @@
 	transform: tra nslate(-50%, -50%) rotate(90deg);
 }
 
-.kai-button-group {
-	display: flex;
-	justify-content: flex-end;
-	gap: 0.8rem;
-}
-
 .kai-form__top {
 	padding: 2rem 2.4rem;
 }
@@ -970,7 +956,21 @@
 	}
 }
 
+.kai-form__container.-foldable-box .kai-form__content-group.-max-w-400{
+	max-width: 100%;
+}
 
+@media (min-width: 690px) {
+	.kai-form__container.-foldable-box .kai-form__content-group.-max-w-400{
+	max-width: 40rem;
+	}
+}
+
+.kai-form__content-flex {
+	display: flex;
+	align-items: center;
+	min-height: 3.4rem;
+}
 
 .kai-form__content-heading {
 	display: flex;
@@ -1125,12 +1125,6 @@
 	display: none;
 }
 
-/* Form Field Styles */
-.kai-form-field {
-	position: relative;
-	width: 100%;
-}
-
 .kai-form__content-bridge {
 	display: flex;
 	align-items: center;
@@ -1141,14 +1135,6 @@
 	height: 2.8rem;
 	background: url(../images/icons/icon--arrow-direction-right.svg) no-repeat 50% 50%;
 	background-size: 100% auto;
-}
-
-.kai-form-field__label {
-	display: block;
-	margin-bottom: 0.5rem;
-	font-size: 0.875rem;
-	color: #333;
-	font-weight: 500;
 }
 
 /* Switch Component */
@@ -1984,6 +1970,7 @@ a.kai-button:not(.-disabled) {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
+	row-gap: 0.4rem;
 }
 
 .kai-text-list.-row {
@@ -2224,7 +2211,7 @@ a.kai-button:not(.-disabled) {
 .kai-progressbar-bar {
   width: 50%;
   height: 8px;
-  background: #e9eaf0;
+  background: var(--color-neutral-20);
   border-radius: 4px;
   margin-bottom: 24px;
   overflow: hidden;
@@ -2252,25 +2239,24 @@ a.kai-button:not(.-disabled) {
   display: block;
 }
 
-.spinner {
+.kai-spinner {
   animation: spinner-rotate 0.8s linear infinite;
 }
-@keyframes spinner-rotate {
-  100% { transform: rotate(360deg); }
-}
-.spinner-bg {
+
+.kai-spinner-bg {
 	fill: var(--color-background);
-	stroke: var(--color-border-primary);
-	stroke-width: 0.2rem;
+	stroke: var(--color-border);
 }
-.spinner-bg {
+.kai-spinner-bg {
   /* 배경 원 */
 }
-.spinner-fg {
-  /* 앞쪽 arc만 보이게 */
+.kai-spinner-fg {
   stroke-dasharray: 100;
-  stroke-dashoffset: 20; /* 1/4만 칠해짐 */
-  /* stroke-linecap: round; 이미 있음 */
+  stroke-dashoffset: 20; 
+}
+
+.kai-progressbar-container .kai-button {
+	margin-top: 2rem;
 }
 
 .kai-review-switch-row {

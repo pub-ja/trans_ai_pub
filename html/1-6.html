@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Korean Air AI번역</title>
 	<link rel="stylesheet" href="../assets/css/common.css" />
-	<link rel="stylesheet" href="../assets/css/components.css" />
+	
 </head>
 <body>
 	<div class="kai-all-wrap">
@@ -618,45 +618,7 @@
 						<div class="kai-progressbar-bar" style="display: block;">
 							<div class="kai-progressbar-bar__inner" style="width: 50%;"></div>
 						</div>
-						<div class="progressbar-spinner">
-							<svg class="spinner" width="48" height="48" viewBox="0 0 48 48">
-								<circle class="spinner-bg" cx="24" cy="24" r="20" fill="none" stroke="#e9eaf0" stroke-width="4" />
-								<circle class="spinner-fg" cx="24" cy="24" r="20" fill="none" stroke="#0a1a57" stroke-width="4"
-									stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="75" />
-							</svg>
-						</div>
-					</div>
-
-					<div class="kai-main__control-box">
-						<div class="kai-main__control-inner -left">
-							<span class="kai-result-text">총 <em>5</em>건</span>
-
-							<!-- 전체 선택 토글버튼 -->
-							<label class="kai-toggle-button" data-control="all-items">
-								<input type="checkbox" class="kai-toggle-button__input" />
-								<span class="kai-icon -check"></span>
-								<span class="kai-toggle-button__text -active">전체 해제</span>
-								<span class="kai-toggle-button__text">전체 선택</span>
-							</label>
-							<!-- // 전체 선택 토글버튼 -->
-
-						</div>
-						<div class="kai-main__control-inner -right">
-							<div class="kai-form__button-group">
-								<button type="button" class="kai-button -medium -line -icon-button">
-									<span class="kai-icon -sheet"></span>
-									스프레드 시트로 보기
-									<span class="kai-icon -arrow-right"></span>
-								</button>
-							</div>
-							<label class="kai-switch -extra -small" data-control="all-accordion">
-								<input type="checkbox" class="kai-switch__input" />
-								<span class="kai-switch__track">
-									<span class="kai-switch__handler"></span>
-								</span>
-								<span class="kai-switch__text">전체열기</span>
-							</label>
-						</div>
+						<button type="button" class="kai-button -medium -line">번역 중지</button>
 					</div>
 
 					<!-- 
@@ -668,7 +630,7 @@
 
 					-compare-open 클래스 추가 : wcm,hp 버전 view (상단 번역 비교 스위치에서 토글)
 					-->
-					<div class="kai-accordion-group">
+					<div class="kai-accordion-group" style="display: none">
 						<div class="kai-accordion-item -open">
 							<div class="kai-accordion-header">
 								<div class="kai-accordion-header__inner -left">
@@ -1434,7 +1396,7 @@
 			</div>
 		</div>
 
-		<script src="../assets/js/common.js"></script>
+		
 		<script src="../assets/js/components.js"></script>
 </body>
 </html>

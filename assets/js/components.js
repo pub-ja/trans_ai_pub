@@ -1,679 +1,834 @@
+// Constants
+const DISABLED_OPACITY = 0.5;
+const SELECTORS = {
+    ACCORDION: {
+        HEADER: '.kai-accordion-header',
+        ITEM: '.kai-accordion-item',
+        CONTENT: '.kai-accordion-content'
+    },
+    CHECKBOX: {
+        INPUT: '.kai-checkbox input',
+        GROUP: '.kai-checkbox__group[data-group]',
+        ALL: '.kai-checkbox.-all input[type="checkbox"]'
+    },
+    SELECT: {
+        CONTAINER: '.kai-custom-select',
+        TRIGGER: '.kai-custom-select__trigger',
+        OPTIONS: '.kai-custom-select__options',
+        OPTION: '.kai-custom-select__option',
+        TEXT: '.kai-custom-select__text'
+    },
+    PROGRESSBAR: {
+        PERCENT: '.kai-progressbar-percent',
+        BAR: '.kai-progressbar-bar',
+        SPINNER: '.kai-kai-progressbar-spinner',
+        INNER: '.kai-progressbar-bar__inner'
+    }
+};
+
+/**
+ * Main initialization function
+ * @function
+ */
 document.addEventListener('DOMContentLoaded', function () {
-    // ===================================
-    // Accordion Functionality
-    // ===================================
-    
-    // 일반 아코디언 기능
-    document.querySelectorAll('.kai-accordion-header').forEach(header => {
-        header.addEventListener('click', () => {
-            const accordionItem = header.closest('.kai-accordion-item');
-            accordionItem.classList.toggle('-open');
-            updateAccordionSwitchState();
-        });
-    });
+    initializeAccordion();
+    initializeCheckboxes();
+    initializeCustomSelect();
+    initializeDisabledStates();
+    setupEventCleanup();
+    ModalModule.init();
+    ToggleButtonModule.init();
+    ReviewSwitchModule.init();
+    TextareaModule.init();
+});
 
-    // 아코디언 폼 컨테이너 토글 기능
-    document.querySelectorAll('.kai-form__container.-accordion .kai-form__top').forEach(header => {
-        header.addEventListener('click', () => {
-            const container = header.closest('.kai-form__container');
-            container.classList.toggle('-open');
-        });
-    });
-
-    // 전체 아코디언 열기/닫기 스위치
-    const allAccordionSwitch = document.querySelector('.kai-switch[data-control="all-accordion"] input');
-    if (allAccordionSwitch) {
-        allAccordionSwitch.addEventListener('change', function () {
-            const accordionItems = document.querySelectorAll('.kai-accordion-item');
-            accordionItems.forEach(item => {
-                item.classList.toggle('-open', this.checked);
-            });
-        });
-    }
-
-    // ===================================
-    // Checkbox Functionality
-    // ===================================
-
-    // 체크박스 기능
-    document.querySelectorAll('.kai-checkbox input').forEach(checkbox => {
-        checkbox.addEventListener('change', () => {
-            const headerCheckbox = checkbox.closest('.kai-accordion-header')?.querySelector('.kai-checkbox input');
-            const contentCheckbox = checkbox.closest('.kai-accordion-content')?.querySelector('.kai-checkbox input');
-
-            if (headerCheckbox) {
-                const contentCheckboxes = headerCheckbox
-                    .closest('.kai-accordion-item')
-                    .querySelectorAll('.kai-accordion-content .kai-checkbox input');
-                contentCheckboxes.forEach(cb => (cb.checked = headerCheckbox.checked));
-            }
-
-            if (contentCheckbox) {
-                const headerCheckbox = contentCheckbox
-                    .closest('.kai-accordion-item')
-                    .querySelector('.kai-accordion-header .kai-checkbox input');
-                const allContentCheckboxes = contentCheckbox
-                    .closest('.kai-accordion-item')
-                    .querySelectorAll('.kai-accordion-content .kai-checkbox input');
-                const allChecked = Array.from(allContentCheckboxes).every(cb => cb.checked);
-                headerCheckbox.checked = allChecked;
-            }
-
-            updateToggleAllState();
-        });
-    });
-
-    // 전체 선택 토글 버튼
-    const toggleAll = document.querySelector('.kai-toggle-button[data-control="all-items"] input');
-    if (toggleAll) {
-        toggleAll.addEventListener('change', function () {
-            const isChecked = this.checked;
-            const toggleButton = this.closest('.kai-toggle-button');
-            toggleButton.classList.toggle('-active', isChecked);
-
-            const accordionCheckboxes = document.querySelectorAll('.kai-accordion-group .kai-checkbox input');
-            accordionCheckboxes.forEach(checkbox => {
-                checkbox.checked = isChecked;
-            });
-        });
-    }
-
-    // 폼 영역 전체 선택
-    const formAllCheckbox = document.querySelector('.kai-form__container .kai-checkbox.-all-check input');
-    if (formAllCheckbox) {
-        formAllCheckbox.addEventListener('change', function () {
-            const checkboxes = document.querySelectorAll('.kai-form__container .kai-checkbox:not(.-all-check) input');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-        });
-    }
-
-    // 체크박스 그룹
-    const checkboxGroups = document.querySelectorAll('.kai-checkbox__group[data-group]');
-    checkboxGroups.forEach(group => {
-        const groupName = group.getAttribute('data-group');
-        const allCheckbox = group.querySelector('.kai-checkbox.-all input[type="checkbox"]');
-        const otherCheckboxes = group.querySelectorAll('.kai-checkbox:not(.-all) input[type="checkbox"]');
-
-        if (allCheckbox) {
-            allCheckbox.addEventListener('change', function () {
-                otherCheckboxes.forEach(checkbox => {
-                    checkbox.checked = this.checked;
-                    updateCheckboxState(checkbox, groupName);
-                });
-            });
-
-            otherCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    const allChecked = Array.from(otherCheckboxes).every(cb => cb.checked);
-                    allCheckbox.checked = allChecked;
-                    updateCheckboxState(this, groupName);
-                });
-            });
-        }
-    });
-
-    // ===================================
-    // Custom Select Functionality
-    // ===================================
-
-    // 커스텀 셀렉트박스
-    const selectTriggers = document.querySelectorAll('.kai-custom-select__trigger');
-    selectTriggers.forEach(trigger => {
-        const select = trigger.closest('.kai-custom-select');
-        const formField = select.closest('.kai-form-field');
-        const options = select.querySelector('.kai-custom-select__options');
-
-        // 초기 상태 설정
-        options.setAttribute('data-open', 'false');
-        select.setAttribute('data-open', 'false');
-
-        trigger.addEventListener('click', function(e) {
-            e.stopPropagation();
-
-            // disabled 상태 체크
-            if (isElementDisabled(select) || isElementDisabled(formField)) {
+/**
+ * Accordion functionality
+ * @module Accordion
+ */
+const AccordionModule = {
+    init() {
+        // Event delegation for accordion headers
+        document.addEventListener('click', (e) => {
+            const header = e.target.closest(SELECTORS.ACCORDION.HEADER);
+            if (!header) {
+                // 폼 컨테이너 아코디언 처리
+                const formHeader = e.target.closest('.kai-form__container.-accordion .kai-form__top');
+                if (formHeader) {
+                    const container = formHeader.closest('.kai-form__container');
+                    container.classList.toggle('-open');
+                    return;
+                }
                 return;
             }
 
-            // 다른 모든 셀렉트 닫기
-            document.querySelectorAll('.kai-custom-select').forEach(s => {
-                if (s !== select) {
-                    s.setAttribute('data-open', 'false');
-                    const otherOptions = s.querySelector('.kai-custom-select__options');
-                    if (otherOptions) {
-                        otherOptions.setAttribute('data-open', 'false');
-                    }
-                }
-            });
-
-            // 현재 셀렉트 토글
-            const isOpen = select.getAttribute('data-open') === 'true';
-            select.setAttribute('data-open', !isOpen);
-            options.setAttribute('data-open', !isOpen);
+            const accordionItem = header.closest(SELECTORS.ACCORDION.ITEM);
+            if (accordionItem) {
+                accordionItem.classList.toggle('-open');
+                this.updateAccordionState();
+            }
         });
-    });
 
-    // 셀렉트 옵션
-    const selectOptions = document.querySelectorAll('.kai-custom-select__option');
-    selectOptions.forEach(option => {
-        option.addEventListener('click', function(e) {
-            e.stopPropagation();
+        // Initialize accordion switch
+        const allAccordionSwitch = document.querySelector('.kai-switch[data-control="all-accordion"] input');
+        if (allAccordionSwitch) {
+            allAccordionSwitch.addEventListener('change', (e) => {
+                const accordionItems = document.querySelectorAll(SELECTORS.ACCORDION.ITEM);
+                accordionItems.forEach(item => item.classList.toggle('-open', e.target.checked));
+            });
+        }
+    },
 
-            const select = option.closest('.kai-custom-select');
-            const formField = select.closest('.kai-form-field');
+    updateAccordionState() {
+        try {
+            const allAccordions = document.querySelectorAll(SELECTORS.ACCORDION.ITEM);
+            const allOpen = Array.from(allAccordions).every(item => item.classList.contains('-open'));
+            const switchInput = document.querySelector('.kai-switch[data-control="all-accordion"] input');
+            if (switchInput) {
+                switchInput.checked = allOpen;
+            }
+        } catch (error) {
+            console.error('Error updating accordion state:', error);
+        }
+    }
+};
+
+/**
+ * Checkbox functionality
+ * @module Checkbox
+ */
+const CheckboxModule = {
+    init() {
+        this.setupCheckboxGroups();
+        this.setupGlobalCheckboxes();
+    },
+
+    setupCheckboxGroups() {
+        const groups = document.querySelectorAll(SELECTORS.CHECKBOX.GROUP);
+        groups.forEach(group => {
+            const groupName = group.getAttribute('data-group');
+            const allCheckbox = group.querySelector(SELECTORS.CHECKBOX.ALL);
+            const otherCheckboxes = group.querySelectorAll(`${SELECTORS.CHECKBOX.INPUT}:not(.-all)`);
+
+            if (allCheckbox) {
+                this.setupGroupCheckboxes(allCheckbox, otherCheckboxes, groupName);
+            }
+        });
+    },
+
+    setupGroupCheckboxes(allCheckbox, otherCheckboxes, groupName) {
+        allCheckbox.addEventListener('change', () => {
+            otherCheckboxes.forEach(checkbox => {
+                checkbox.checked = allCheckbox.checked;
+                this.updateCheckboxState(checkbox, groupName);
+            });
+        });
+
+        otherCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const allChecked = Array.from(otherCheckboxes).every(cb => cb.checked);
+                allCheckbox.checked = allChecked;
+                this.updateCheckboxState(checkbox, groupName);
+            });
+        });
+    },
+
+    setupGlobalCheckboxes() {
+        const toggleAll = document.querySelector('.kai-toggle-button[data-control="all-items"] input');
+        if (toggleAll) {
+            toggleAll.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                e.target.closest('.kai-toggle-button').classList.toggle('-active', isChecked);
+                document.querySelectorAll(`${SELECTORS.ACCORDION.ITEM} ${SELECTORS.CHECKBOX.INPUT}`)
+                    .forEach(checkbox => checkbox.checked = isChecked);
+            });
+        }
+    },
+
+    updateCheckboxState(checkbox, groupName) {
+        try {
+            // 체크박스 상태 업데이트 로직
+            const event = new CustomEvent('checkboxStateChange', {
+                detail: { checkbox, groupName, checked: checkbox.checked }
+            });
+            document.dispatchEvent(event);
+        } catch (error) {
+            console.error('Error updating checkbox state:', error);
+        }
+    }
+};
+
+/**
+ * Custom Select functionality
+ * @module CustomSelect
+ */
+const CustomSelectModule = {
+    init() {
+        this.setupSelectTriggers();
+        this.setupSelectOptions();
+        this.setupClickOutside();
+        this.setupKeyboardNavigation();
+    },
+
+    setupSelectTriggers() {
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest(SELECTORS.SELECT.TRIGGER);
+            if (!trigger) return;
+
+            const select = trigger.closest(SELECTORS.SELECT.CONTAINER);
+            const formField = select?.closest('.kai-form-field');
+
+            if (select && !StateManager.isDisabled(select) && !StateManager.isDisabled(formField)) {
+                this.toggleSelect(select);
+            }
+        });
+    },
+
+    setupSelectOptions() {
+        document.addEventListener('click', (e) => {
+            const option = e.target.closest(SELECTORS.SELECT.OPTION);
+            if (!option) return;
+
+            const select = option.closest(SELECTORS.SELECT.CONTAINER);
+            if (!select || option.getAttribute('data-disabled') === 'true') return;
+
+            const isMultiple = select.classList.contains('-multiple');
+            const textElement = select.querySelector(SELECTORS.SELECT.TEXT);
+
+            // 멀티 셀렉트의 경우 체크박스 클릭 이벤트 처리
+            if (isMultiple && e.target.closest('input[type="checkbox"]')) {
+                this.handleMultipleSelect(option, select, textElement);
+                return;
+            }
+
+            isMultiple ? 
+                this.handleMultipleSelect(option, select, textElement) :
+                this.handleSingleSelect(option, select, textElement);
+        });
+    },
+
+    setupClickOutside() {
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest(SELECTORS.SELECT.CONTAINER)) {
+                this.closeAllSelects();
+            }
+        });
+    },
+
+    setupKeyboardNavigation() {
+        document.addEventListener('keydown', (e) => {
+            const select = e.target.closest(SELECTORS.SELECT.CONTAINER);
             if (!select) return;
 
-            // disabled 상태 체크
-            if (isElementDisabled(select) || isElementDisabled(formField)) {
-                return;
-            }
-
-            if (option.getAttribute('data-disabled') === 'true') return;
-
-            const trigger = select.querySelector('.kai-custom-select__trigger');
-            const options = select.querySelector('.kai-custom-select__options');
-            const textElement = trigger.querySelector('.kai-custom-select__text');
-
-            if (select.classList.contains('-multiple')) {
-                handleMultipleSelect(option, select, textElement);
-            } else {
-                handleSingleSelect(option, select, textElement, options);
+            switch (e.key) {
+                case 'Escape':
+                    this.closeAllSelects();
+                    break;
+                case 'ArrowDown':
+                case 'ArrowUp':
+                    this.handleArrowNavigation(select, e.key === 'ArrowDown');
+                    break;
+                case 'Enter':
+                case ' ':
+                    this.handleEnterSpace(select, e);
+                    break;
             }
         });
-    });
+    },
 
-    // 외부 클릭 시 셀렉트 닫기
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.kai-custom-select')) {
-            document.querySelectorAll('.kai-custom-select').forEach(select => {
-                select.setAttribute('data-open', 'false');
-                const options = select.querySelector('.kai-custom-select__options');
-                if (options) {
-                    options.setAttribute('data-open', 'false');
-                }
-            });
+    toggleSelect(select) {
+        const isOpen = select.getAttribute('data-open') === 'true';
+        this.closeAllSelects();
+        select.setAttribute('data-open', !isOpen);
+        select.querySelector(SELECTORS.SELECT.OPTIONS)?.setAttribute('data-open', !isOpen);
+    },
+
+    closeAllSelects() {
+        document.querySelectorAll(SELECTORS.SELECT.CONTAINER).forEach(select => {
+            select.setAttribute('data-open', 'false');
+            select.querySelector(SELECTORS.SELECT.OPTIONS)?.setAttribute('data-open', 'false');
+        });
+    },
+
+    handleMultipleSelect(option, select, textElement) {
+        const checkbox = option.querySelector('input[type="checkbox"]');
+        if (!checkbox) return;
+
+        // 현재 선택 상태 확인 및 토글
+        const isSelected = checkbox.checked;
+        checkbox.checked = !isSelected;
+        option.setAttribute('data-selected', (!isSelected).toString());
+
+        // 선택된 옵션 텍스트 업데이트
+        const allOptions = select.querySelectorAll(SELECTORS.SELECT.OPTION);
+        const selectedOptions = select.querySelectorAll(`${SELECTORS.SELECT.OPTION}[data-selected="true"]`);
+        const selectedCount = selectedOptions.length;
+        const totalCount = allOptions.length;
+
+        if (selectedCount === 0) {
+            select.removeAttribute('data-has-value');
+            textElement.textContent = select.querySelector('.kai-custom-select__placeholder')?.textContent || '';
+        } else {
+            select.setAttribute('data-has-value', 'true');
+            if (selectedCount === totalCount) {
+                textElement.textContent = '전체선택';
+            } else if (selectedCount === 1) {
+                textElement.textContent = selectedOptions[0].querySelector('span').textContent;
+            } else {
+                textElement.textContent = '다중선택';
+            }
         }
-    });
 
-    // ===================================
-    // Disabled State Management
-    // ===================================
+        // CustomEvent 발생
+        const event = new CustomEvent('multiSelectChange', {
+            detail: {
+                select,
+                selectedOptions: Array.from(selectedOptions),
+                selectedCount,
+                changedOption: option,
+                isSelected: !isSelected
+            }
+        });
+        select.dispatchEvent(event);
+    },
 
-    // disabled 상태 체크 함수
-    function isElementDisabled(element) {
+    handleSingleSelect(option, select, textElement) {
+        // 기존 선택 해제
+        select.querySelectorAll(SELECTORS.SELECT.OPTION).forEach(opt => {
+            opt.setAttribute('data-selected', 'false');
+            const checkbox = opt.querySelector('input[type="checkbox"]');
+            if (checkbox) checkbox.checked = false;
+        });
+        
+        // 새로운 옵션 선택
+        option.setAttribute('data-selected', 'true');
+        const checkbox = option.querySelector('input[type="checkbox"]');
+        if (checkbox) checkbox.checked = true;
+
+        // 텍스트 업데이트
+        select.setAttribute('data-has-value', 'true');
+        textElement.textContent = option.querySelector('span')?.textContent || option.textContent;
+
+        // 셀렉트 닫기
+        this.closeAllSelects();
+
+        // CustomEvent 발생
+        const event = new CustomEvent('singleSelectChange', {
+            detail: {
+                select,
+                selectedOption: option,
+                value: option.getAttribute('data-value')
+            }
+        });
+        select.dispatchEvent(event);
+    },
+
+    handleArrowNavigation(select, isDown) {
+        const options = Array.from(select.querySelectorAll(`${SELECTORS.SELECT.OPTION}:not([data-disabled="true"])`));
+        const currentOption = select.querySelector(`${SELECTORS.SELECT.OPTION}[data-selected="true"]`);
+        let currentIndex = options.indexOf(currentOption);
+
+        if (currentIndex === -1) {
+            currentIndex = isDown ? -1 : options.length;
+        }
+
+        const nextIndex = isDown ? 
+            Math.min(currentIndex + 1, options.length - 1) : 
+            Math.max(currentIndex - 1, 0);
+
+        const nextOption = options[nextIndex];
+        if (nextOption) {
+            const textElement = select.querySelector(SELECTORS.SELECT.TEXT);
+            if (select.classList.contains('-multiple')) {
+                this.handleMultipleSelect(nextOption, select, textElement);
+            } else {
+                this.handleSingleSelect(nextOption, select, textElement);
+            }
+            nextOption.focus();
+        }
+    },
+
+    handleEnterSpace(select, event) {
+        event.preventDefault();
+        const option = event.target.closest(SELECTORS.SELECT.OPTION);
+        if (!option) return;
+
+        const textElement = select.querySelector(SELECTORS.SELECT.TEXT);
+        if (select.classList.contains('-multiple')) {
+            this.handleMultipleSelect(option, select, textElement);
+        } else {
+            this.handleSingleSelect(option, select, textElement);
+        }
+    }
+};
+
+/**
+ * State Management
+ * @module StateManager
+ */
+const StateManager = {
+    init() {
+        this.setupDisabledHandlers();
+        this.initializeDisabledStates();
+    },
+
+    isDisabled(element) {
         if (!element) return false;
-        return element.classList.contains('-disabled') || 
+        return element.classList.contains('-disabled') ||
                element.classList.contains('-aria-disabled') ||
                element.hasAttribute('disabled');
-    }
+    },
 
-    // disabled 상태 토글 함수
-    function toggleDisabled(element, isDisabled) {
+    setDisabled(element, isDisabled) {
         if (!element) return;
 
-        if (isDisabled) {
-            element.classList.add('-disabled');
-            element.setAttribute('disabled', 'disabled');
-            
-            // 모든 입력 요소와 버튼 비활성화
-            const inputs = element.querySelectorAll('input, select, textarea, button');
-            inputs.forEach(input => {
-                input.disabled = true;
-                input.setAttribute('disabled', 'disabled');
-            });
+        const className = '-disabled';
+        element.classList.toggle(className, isDisabled);
+        element.toggleAttribute('disabled', isDisabled);
 
-            // 아이콘 버튼의 경우 추가 처리
-            if (element.classList.contains('kai-icon-button')) {
-                element.style.pointerEvents = 'none';
-                element.style.opacity = '0.5';
-            }
-        } else {
-            element.classList.remove('-disabled');
-            element.removeAttribute('disabled');
-            
-            // 모든 입력 요소와 버튼 활성화
-            const inputs = element.querySelectorAll('input, select, textarea, button');
-            inputs.forEach(input => {
-                input.disabled = false;
-                input.removeAttribute('disabled');
-            });
+        // 모든 입력 요소와 버튼 비활성화/활성화
+        const inputs = element.querySelectorAll('input, select, textarea, button');
+        inputs.forEach(input => {
+            input.disabled = isDisabled;
+            input.toggleAttribute('disabled', isDisabled);
+        });
 
-            // 아이콘 버튼의 경우 추가 처리
-            if (element.classList.contains('kai-icon-button')) {
-                element.style.pointerEvents = 'auto';
-                element.style.opacity = '1';
-            }
+        if (element.classList.contains('kai-icon-button')) {
+            element.style.pointerEvents = isDisabled ? 'none' : 'auto';
+            element.style.opacity = isDisabled ? DISABLED_OPACITY : '1';
         }
-    }
 
-    // aria-disabled 상태 토글 함수
-    function toggleAriaDisabled(element, isDisabled) {
+        // Update ARIA attributes
+        element.setAttribute('aria-disabled', isDisabled);
+    },
+
+    setAriaDisabled(element, isDisabled) {
         if (!element) return;
 
-        if (isDisabled) {
-            element.classList.add('-aria-disabled');
-            element.setAttribute('aria-disabled', 'true');
-            element.setAttribute('disabled', 'disabled');
-            
-            // 모든 입력 요소와 버튼 비활성화
-            const inputs = element.querySelectorAll('input, select, textarea, button');
-            inputs.forEach(input => {
-                input.setAttribute('aria-disabled', 'true');
-                input.setAttribute('disabled', 'disabled');
-            });
+        const className = '-aria-disabled';
+        element.classList.toggle(className, isDisabled);
+        element.setAttribute('aria-disabled', isDisabled);
+        element.toggleAttribute('disabled', isDisabled);
 
-            // 아이콘 버튼의 경우 추가 처리
-            if (element.classList.contains('kai-icon-button')) {
-                element.style.pointerEvents = 'none';
-                element.style.opacity = '0.5';
-            }
-        } else {
-            element.classList.remove('-aria-disabled');
-            element.setAttribute('aria-disabled', 'false');
-            element.removeAttribute('disabled');
-            
-            // 모든 입력 요소와 버튼 활성화
-            const inputs = element.querySelectorAll('input, select, textarea, button');
-            inputs.forEach(input => {
-                input.setAttribute('aria-disabled', 'false');
-                input.removeAttribute('disabled');
-            });
+        // 모든 입력 요소와 버튼 ARIA 상태 업데이트
+        const inputs = element.querySelectorAll('input, select, textarea, button');
+        inputs.forEach(input => {
+            input.setAttribute('aria-disabled', isDisabled);
+            input.toggleAttribute('disabled', isDisabled);
+        });
 
-            // 아이콘 버튼의 경우 추가 처리
-            if (element.classList.contains('kai-icon-button')) {
-                element.style.pointerEvents = 'auto';
-                element.style.opacity = '1';
-            }
+        if (element.classList.contains('kai-icon-button')) {
+            element.style.pointerEvents = isDisabled ? 'none' : 'auto';
+            element.style.opacity = isDisabled ? DISABLED_OPACITY : '1';
         }
-    }
+    },
 
-    // 버튼 클릭 이벤트에 disabled 체크 추가
-    document.querySelectorAll('.kai-button, .kai-icon-button').forEach(button => {
-        button.addEventListener('click', function(e) {
-            if (isElementDisabled(this)) {
+    setupDisabledHandlers() {
+        // 버튼 클릭 이벤트에 disabled 체크 추가
+        document.addEventListener('click', (e) => {
+            const button = e.target.closest('.kai-button, .kai-icon-button');
+            if (button && this.isDisabled(button)) {
                 e.preventDefault();
                 e.stopPropagation();
                 return false;
             }
-        });
-    });
+        }, true);
 
-    // 체크박스 클릭 이벤트에 disabled 체크 추가
-    document.querySelectorAll('.kai-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('click', function(e) {
-            if (isElementDisabled(this)) {
+        // 체크박스 클릭 이벤트에 disabled 체크 추가
+        document.addEventListener('click', (e) => {
+            const checkbox = e.target.closest('.kai-checkbox');
+            if (checkbox && this.isDisabled(checkbox)) {
                 e.preventDefault();
                 e.stopPropagation();
                 return;
             }
+        }, true);
+    },
+
+    initializeDisabledStates() {
+        // 버튼 초기화
+        document.querySelectorAll('.kai-button, .kai-icon-button').forEach(button => {
+            if (button.classList.contains('-disabled')) {
+                this.setDisabled(button, true);
+            }
+            if (button.classList.contains('-aria-disabled')) {
+                this.setAriaDisabled(button, true);
+            }
         });
-    });
 
-    // ===================================
-    // Modal Functionality
-    // ===================================
-
-    // 모달 트리거
-    const modalTriggers = document.querySelectorAll('[data-modal]');
-    const modalCloseButtons = document.querySelectorAll('.kai-modal__close');
-
-    // 모달 열기
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const modalId = this.getAttribute('data-modal');
-            const modalRoot = document.querySelector(`#${modalId}`).closest('.kai-modal-root');
-            modalRoot.setAttribute('data-open', 'true');
+        // 폼 필드 초기화
+        document.querySelectorAll('.kai-form-field').forEach(field => {
+            if (field.dataset.disabled === 'true') {
+                this.setDisabled(field, true);
+            }
+            if (field.dataset.ariaDisabled === 'true') {
+                this.setAriaDisabled(field, true);
+            }
         });
-    });
 
-    // 모달 닫기
-    const closeModal = (modalRoot) => {
-        modalRoot.setAttribute('data-open', 'false');
+        // 체크박스 초기화
+        document.querySelectorAll('.kai-checkbox').forEach(checkbox => {
+            if (checkbox.classList.contains('-disabled')) {
+                this.setDisabled(checkbox, true);
+            }
+            if (checkbox.classList.contains('-aria-disabled')) {
+                this.setAriaDisabled(checkbox, true);
+            }
+        });
+
+        // 커스텀 셀렉트 초기화
+        document.querySelectorAll('.kai-custom-select').forEach(select => {
+            if (select.classList.contains('-disabled')) {
+                this.setDisabled(select, true);
+            }
+            if (select.classList.contains('-aria-disabled')) {
+                this.setAriaDisabled(select, true);
+            }
+        });
+    }
+};
+
+/**
+ * Progress Bar functionality
+ * @module ProgressBar
+ */
+const ProgressBarModule = {
+    setProgress(percent) {
+        try {
+            const elements = {
+                percentEl: document.querySelector(SELECTORS.PROGRESSBAR.PERCENT),
+                barEl: document.querySelector(SELECTORS.PROGRESSBAR.BAR),
+                spinnerEl: document.querySelector(SELECTORS.PROGRESSBAR.SPINNER),
+                innerEl: document.querySelector(SELECTORS.PROGRESSBAR.INNER)
+            };
+
+            if (!elements.percentEl || !elements.barEl || !elements.spinnerEl || !elements.innerEl) {
+                throw new Error('Required progress bar elements not found');
+            }
+
+            elements.percentEl.textContent = `${percent}%`;
+            elements.barEl.style.display = 'block';
+            elements.spinnerEl.style.display = 'none';
+            elements.innerEl.style.width = `${percent}%`;
+
+            // Update ARIA attributes
+            elements.barEl.setAttribute('aria-valuenow', percent);
+            elements.barEl.setAttribute('aria-valuetext', `${percent}% complete`);
+        } catch (error) {
+            console.error('Error updating progress:', error);
+        }
+    }
+};
+
+/**
+ * Event cleanup functionality
+ * @module EventCleanup
+ */
+function setupEventCleanup() {
+    const cleanup = () => {
+        // Remove all event listeners when the component is destroyed
+        document.querySelectorAll(SELECTORS.SELECT.TRIGGER).forEach(trigger => {
+            trigger.removeEventListener('click', null);
+        });
+        // Add other cleanup logic as needed
     };
 
-    // 모달 닫기 버튼
-    modalCloseButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const modalRoot = this.closest('.kai-modal-root');
-            closeModal(modalRoot);
+    // Example: Clean up when the page unloads
+    window.addEventListener('unload', cleanup);
+}
+
+/**
+ * Modal functionality
+ * @module Modal
+ */
+const ModalModule = {
+    init() {
+        this.setupModalTriggers();
+        this.setupCloseButtons();
+        this.setupOutsideClicks();
+    },
+
+    setupModalTriggers() {
+        document.querySelectorAll('[data-modal]').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const modalId = trigger.getAttribute('data-modal');
+                const modalRoot = document.querySelector(`#${modalId}`).closest('.kai-modal-root');
+                this.openModal(modalRoot);
+            });
         });
-    });
+    },
 
-    // 마스크 클릭시 닫기
-    document.querySelectorAll('.kai-modal__mask').forEach(mask => {
-        mask.addEventListener('click', function() {
-            const modalRoot = this.closest('.kai-modal-root');
-            closeModal(modalRoot);
+    setupCloseButtons() {
+        document.querySelectorAll('.kai-modal__close, .kai-modal__button-close').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalRoot = button.closest('.kai-modal-root');
+                this.closeModal(modalRoot);
+            });
         });
-    });
 
-    // 모달 외부 클릭 시 닫기
-    document.querySelectorAll('.kai-modal-item').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                const modalRoot = this.closest('.kai-modal-root');
-                closeModal(modalRoot);
-            }
+        // 마스크 클릭시 닫기
+        document.querySelectorAll('.kai-modal__mask').forEach(mask => {
+            mask.addEventListener('click', () => {
+                const modalRoot = mask.closest('.kai-modal-root');
+                this.closeModal(modalRoot);
+            });
         });
-    });
+    },
 
-    // ===================================
-    // Utility Functions
-    // ===================================
-
-    // 체크박스 상태 업데이트
-    function updateCheckboxState(checkbox, groupName) {
-        const option = checkbox.closest('.kai-custom-select__option');
-        if (option) {
-            option.setAttribute('data-selected', checkbox.checked);
-        }
-
-        switch (groupName) {
-            case 'languages':
-                // 언어 선택 관련 추가 동작
-                break;
-        }
-    }
-
-    // 전체 선택 상태 업데이트
-    function updateToggleAllState() {
-        const allCheckboxes = document.querySelectorAll('.kai-accordion-group .kai-checkbox input');
-        const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
-        const toggleButton = document.querySelector('.kai-toggle-button[data-control="all-items"]');
-        
-        if (toggleButton) {
-            toggleButton.classList.toggle('-active', allChecked);
-            toggleButton.querySelector('input').checked = allChecked;
-        }
-    }
-
-    // 아코디언 스위치 상태 업데이트
-    function updateAccordionSwitchState() {
-        const accordionItems = document.querySelectorAll('.kai-accordion-group .kai-accordion-item');
-        const allOpen = Array.from(accordionItems).every(item => item.classList.contains('-open'));
-        const accordionSwitch = document.querySelector('.kai-switch.-extra.-small input');
-        
-        if (accordionSwitch) {
-            accordionSwitch.checked = allOpen;
-        }
-    }
-
-    // 다중 선택 처리
-    function handleMultipleSelect(option, select, textElement) {
-        const checkbox = option.querySelector('input[type="checkbox"]');
-        if (!checkbox) return;
-
-        checkbox.checked = !checkbox.checked;
-        option.setAttribute('data-selected', checkbox.checked);
-
-        const selectedOptions = select.querySelectorAll('.kai-custom-select__option[data-selected="true"]');
-        const selectedCount = selectedOptions.length;
-
-        if (selectedCount === 0) {
-            select.removeAttribute('data-has-value');
-            textElement.textContent = '';
-        } else {
-            select.setAttribute('data-has-value', 'true');
-            textElement.textContent = selectedCount === 1 
-                ? selectedOptions[0].querySelector('span').textContent 
-                : '다중선택';
-        }
-    }
-
-    // 단일 선택 처리
-    function handleSingleSelect(option, select, textElement, options) {
-        select.querySelectorAll('.kai-custom-select__option').forEach(opt => {
-            opt.removeAttribute('data-selected');
+    setupOutsideClicks() {
+        document.querySelectorAll('.kai-modal-item').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    const modalRoot = modal.closest('.kai-modal-root');
+                    this.closeModal(modalRoot);
+                }
+            });
         });
-        
-        option.setAttribute('data-selected', 'true');
-        select.setAttribute('data-has-value', 'true');
-        textElement.textContent = option.querySelector('span').textContent;
-        select.setAttribute('data-open', 'false');
-        options.setAttribute('data-open', 'false');
+    },
+
+    openModal(modalRoot) {
+        if (!modalRoot) return;
+        modalRoot.setAttribute('data-open', 'true');
+    },
+
+    closeModal(modalRoot) {
+        if (!modalRoot) return;
+        modalRoot.setAttribute('data-open', 'false');
     }
+};
 
-    // ===================================
-    // Textarea Height Adjustment
-    // ===================================
-    
-    // textarea 높이 자동 조절 함수
-    function adjustTextareaHeight(textarea) {
-        const parentBox = textarea.closest('.kai-form-field__item-box');
-        // -fixed-height 클래스가 있는 경우 높이 조절하지 않음
-        if (!parentBox || !parentBox.classList.contains('-fixed-height')) {
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-        }
-    }
+/**
+ * Toggle Button functionality
+ * @module ToggleButton
+ */
+const ToggleButtonModule = {
+    init() {
+        this.setupToggleButtons();
+        this.setupBottomSheetToggle();
+        this.setupSwitchControls();
+    },
 
-    // textarea 높이 자동 조절 이벤트 리스너
-    document.querySelectorAll('.kai-form-field__item').forEach(textarea => {
-        // 초기 높이 설정
-        adjustTextareaHeight(textarea);
-        
-        // input 이벤트로 높이 자동 조절
-        textarea.addEventListener('input', () => adjustTextareaHeight(textarea));
-        
-        // resize 이벤트로 높이 자동 조절
-        window.addEventListener('resize', () => adjustTextareaHeight(textarea));
-    });
+    setupToggleButtons() {
+        document.querySelectorAll('.kai-toggle-icon-button').forEach(button => {
+            const input = button.querySelector('input[type="checkbox"]');
+            if (!input) return;
 
-    // ===================================
-    // Bottom Sheet Functionality
-    // ===================================
-
-    // 토글 버튼 이벤트 처리
-    const toggleButtons = document.querySelectorAll('.kai-toggle-icon-button');
-    toggleButtons.forEach(button => {
-        const input = button.querySelector('input[type="checkbox"]');
-        
-        input.addEventListener('change', function() {
-            // -checked 클래스 토글
-            if (this.checked) {
-                button.classList.add('-checked');
-            } else {
-                button.classList.remove('-checked');
-            }
+            input.addEventListener('change', () => {
+                button.classList.toggle('-checked', input.checked);
+            });
         });
-    });
+    },
 
-    // 바텀시트 토글 이벤트 처리
-    const bottomSheetToggleButtons = document.querySelectorAll('.kai-toggle-icon-button[data-target="additional-sheet"]');
-    bottomSheetToggleButtons.forEach(button => {
-        const input = button.querySelector('input[type="checkbox"]');
+    setupBottomSheetToggle() {
+        document.querySelectorAll('.kai-toggle-icon-button[data-target="additional-sheet"]').forEach(button => {
+            const input = button.querySelector('input[type="checkbox"]');
+            if (!input) return;
+
+            input.addEventListener('change', () => {
+                this.handleBottomSheetToggle(input.checked);
+            });
+        });
+
+        // 바텀시트 닫기 버튼
+        const closeButton = document.querySelector('.kai-main-bottom-sheet__button-close');
+        if (closeButton) {
+            closeButton.addEventListener('click', () => {
+                this.handleBottomSheetToggle(false);
+                // 모든 토글 버튼 상태 해제
+                document.querySelectorAll('.kai-toggle-icon-button[data-target="additional-sheet"]').forEach(toggleButton => {
+                    toggleButton.classList.remove('-checked');
+                    const input = toggleButton.querySelector('input[type="checkbox"]');
+                    if (input) input.checked = false;
+                });
+            });
+        }
+    },
+
+    handleBottomSheetToggle(isOpen) {
+        const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
+        const mainBottom = document.querySelector('.kai-main-bottom:not(.-additional-sheet)');
+        const layout = document.querySelector('.kai-layout');
         
-        input.addEventListener('change', function() {
-            const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
-            const layout = document.querySelector('.kai-layout');
+        if (!additionalSheet || !layout) return;
+        
+        if (isOpen) {
+            additionalSheet.classList.add('-open');
             
-            if (this.checked) {
-                additionalSheet.classList.add('-open');
-                // 기본 bottom 높이 가져오기
-                const mainBottom = document.querySelector('.kai-main-bottom:not(.-additional-sheet)');
+            // 메인 바텀이 있는 경우에만 bottom 위치 조정
+            if (mainBottom) {
                 const mainBottomHeight = mainBottom.offsetHeight;
-                // additional-sheet의 위치를 기본 bottom의 높이만큼 조정
                 additionalSheet.style.bottom = mainBottomHeight + 'px';
-                
-                // 모든 kai-main-bottom의 높이 합계 계산
-                const mainBottoms = document.querySelectorAll('.kai-main-bottom');
-                let totalHeight = 0;
-                mainBottoms.forEach(bottom => {
-                    totalHeight += bottom.offsetHeight;
-                });
-                
-                // 1rem을 픽셀로 변환 (기본값 16px)
-                const oneRem = 16;
-                
-                // kai-layout의 하단 패딩을 모든 bottom 높이 합 + 1rem으로 설정
-                layout.style.paddingBottom = (totalHeight + oneRem) + 'px';
-
-                // 바텀시트가 완전히 열린 후 패딩 재계산
-                additionalSheet.addEventListener('transitionend', function handler() {
-                    // 모든 kai-main-bottom의 높이 합계 재계산
-                    let recalculatedHeight = 0;
-                    mainBottoms.forEach(bottom => {
-                        recalculatedHeight += bottom.offsetHeight;
-                    });
-                    // kai-layout의 하단 패딩을 재계산된 높이 + 1rem으로 설정
-                    layout.style.paddingBottom = (recalculatedHeight + oneRem) + 'px';
-                    additionalSheet.removeEventListener('transitionend', handler);
-                });
-
-            } else {
-                additionalSheet.classList.remove('-open');
-                // additional-sheet의 위치 초기화
-                additionalSheet.style.bottom = '';
-                // kai-layout의 하단 패딩 초기화
-                layout.style.paddingBottom = '';
             }
-        });
-    });
-
-    // 바텀시트 닫기 버튼 이벤트 처리
-    const closeButton = document.querySelector('.kai-main-bottom-sheet__button-close');
-    if (closeButton) {
-        closeButton.addEventListener('click', function () {
-            const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
-            const layout = document.querySelector('.kai-layout');
             
-            // 바텀시트 닫기
+            // 총 높이 계산 (메인 바텀이 없으면 0으로 처리)
+            const mainBottomHeight = mainBottom ? mainBottom.offsetHeight : 0;
+            const totalHeight = mainBottomHeight + additionalSheet.offsetHeight;
+            const oneRem = parseInt(getComputedStyle(document.documentElement).fontSize);
+            
+            // 총 높이 + 1rem을 패딩 바텀으로 설정
+            layout.style.paddingBottom = (totalHeight + oneRem) + 'px';
+        } else {
             additionalSheet.classList.remove('-open');
             additionalSheet.style.bottom = '';
             layout.style.paddingBottom = '';
+        }
+    },
 
-            // 모든 토글 버튼 상태 해제
-            document.querySelectorAll('.kai-toggle-icon-button[data-target="additional-sheet"]').forEach(toggleButton => {
-                toggleButton.classList.remove('-checked');
-                const input = toggleButton.querySelector('input[type="checkbox"]');
-                if (input) {
-                    input.checked = false;
+    setupSwitchControls() {
+        document.querySelectorAll('.kai-switch[data-control]').forEach(switchEl => {
+            const input = switchEl.querySelector('.kai-switch__input');
+            if (!input) return;
+
+            input.addEventListener('change', () => {
+                const controlType = switchEl.dataset.control;
+                switch(controlType) {
+                    case 'compare-toggle':
+                        document.querySelector('.kai-accordion-group')
+                            ?.classList.toggle('-compare-open', input.checked);
+                        break;
+                    case 'prompt-toggle':
+                        document.querySelector('[data-target="prompt-container"]')
+                            ?.classList.toggle('-visible', input.checked);
+                        break;
                 }
             });
         });
     }
+};
 
-    // ===================================
-    // Initialization
-    // ===================================
+/**
+ * Review Switch functionality
+ * @module ReviewSwitch
+ */
+const ReviewSwitchModule = {
+    init() {
+        document.querySelectorAll('.kai-review-switch-row').forEach(row => {
+            const radios = row.querySelectorAll('input[type="radio"]');
+            const afterSpan = row.querySelector('.-review-after');
+            const beforeSpan = row.querySelector('.-review-before');
 
-    // 초기 disabled 상태 설정
-    function initializeDisabledStates() {
-        // 버튼
-        const buttons = document.querySelectorAll('.kai-button, .kai-icon-button');
-        buttons.forEach(button => {
-            if (button.classList.contains('-disabled')) {
-                toggleDisabled(button, true);
-            }
-            if (button.classList.contains('-aria-disabled')) {
-                toggleAriaDisabled(button, true);
-            }
-        });
+            // Set initial state
+            radios.forEach(radio => {
+                const switchElement = radio.closest('label.kai-review-switch');
+                if (switchElement) {
+                    switchElement.classList.toggle('-checked', radio.checked);
+                }
+            });
 
-        // 폼 필드
-        const formFields = document.querySelectorAll('.kai-form-field');
-        formFields.forEach(field => {
-            if (field.dataset.disabled === 'true') {
-                toggleDisabled(field, true);
-            }
-            if (field.dataset.ariaDisabled === 'true') {
-                toggleAriaDisabled(field, true);
-            }
-        });
+            radios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    // Remove -checked class from all labels first
+                    row.querySelectorAll('label.kai-review-switch').forEach(label => {
+                        label.classList.remove('-checked');
+                    });
 
-        // 체크박스
-        const checkboxes = document.querySelectorAll('.kai-checkbox');
-        checkboxes.forEach(checkbox => {
-            if (checkbox.classList.contains('-disabled')) {
-                toggleDisabled(checkbox, true);
-            }
-            if (checkbox.classList.contains('-aria-disabled')) {
-                toggleAriaDisabled(checkbox, true);
-            }
+                    // Add -checked class to the selected radio's label
+                    const switchElement = radio.closest('label.kai-review-switch');
+                    if (switchElement) {
+                        switchElement.classList.add('-checked');
+                    }
+
+                    if (radio.value === 'after') {
+                        afterSpan.classList.add('-show');
+                        beforeSpan.classList.remove('-show');
+                    } else {
+                        afterSpan.classList.remove('-show');
+                        beforeSpan.classList.add('-show');
+                    }
+                });
+            });
         });
     }
+};
 
-    // 초기화 실행
-	initializeDisabledStates();
-	
-	// 스위치 컨트롤
-document.querySelectorAll('.kai-switch[data-control]').forEach(switchEl => {
-    const input = switchEl.querySelector('.kai-switch__input');
-    const controlType = switchEl.dataset.control;
-    
-    input.addEventListener('change', function() {
-        switch(controlType) {
-            case 'compare-toggle':
-                document.querySelector('.kai-accordion-group').classList.toggle('-compare-open', this.checked);
-                break;
-            case 'prompt-toggle':
-                document.querySelector('[data-target="prompt-container"]').classList.toggle('-visible', this.checked);
-                break;
-        }
+/**
+ * Textarea functionality
+ * @module Textarea
+ */
+const TextareaModule = {
+    init() {
+        this.setupTextareaAutoHeight();
+        this.setupResizeListener();
+    },
+
+    setupTextareaAutoHeight() {
+        document.querySelectorAll('.kai-form-field__item').forEach(textarea => {
+            const parentBox = textarea.closest('.kai-form-field__item-box');
+            // -fixed-height 클래스가 있는 경우 이벤트 리스너를 추가하지 않음
+            if (parentBox?.classList.contains('-fixed-height')) {
+                return;
+            }
+            
+            // 초기 높이 설정
+            this.adjustHeight(textarea);
+            
+            // input 이벤트로 높이 자동 조절
+            textarea.addEventListener('input', () => this.adjustHeight(textarea));
+        });
+    },
+
+    setupResizeListener() {
+        // resize 이벤트로 높이 자동 조절
+        window.addEventListener('resize', () => {
+            document.querySelectorAll('.kai-form-field__item').forEach(textarea => {
+                const parentBox = textarea.closest('.kai-form-field__item-box');
+                if (!parentBox?.classList.contains('-fixed-height')) {
+                    this.adjustHeight(textarea);
+                }
+            });
+        });
+    },
+
+    adjustHeight(textarea) {
+        const parentBox = textarea.closest('.kai-form-field__item-box');
+        if (!parentBox) return;
+        
+        // 높이 재설정
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+};
+
+// Tag removal functionality
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('kai-tag__remove')) {
+        const tag = e.target.closest('.kai-tag');
+        if (tag) tag.remove();
+    }
+});
+
+// Date and Time picker functionality
+document.querySelectorAll('.kai-form-field__item-box input[type="date"], .kai-form-field__item-box input[type="time"]').forEach(input => {
+    input.addEventListener('click', () => {
+        input.showPicker?.();
     });
 });
-	
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('kai-tag__remove')) {
-    const tag = e.target.closest('.kai-tag');
-    if (tag) tag.remove();
-  }
-});
-	
-function setProgress(percent) {
-  document.querySelector('.kai-progressbar-percent').textContent = percent + '%';
-  if (percent < 100) {
-    document.querySelector('.kai-progressbar-bar').style.display = 'block';
-    document.querySelector('.kai-progressbar-spinner').style.display = 'none';
-    document.querySelector('.kai-progressbar-bar__inner').style.width = percent + '%';
-  } else {
-    document.querySelector('.kai-progressbar-bar').style.display = 'none';
-    document.querySelector('.kai-progressbar-spinner').style.display = 'block';
-  }
+
+// Initialize all modules
+function initializeAccordion() {
+    AccordionModule.init();
 }
 
-document.querySelectorAll('.kai-form-field__item-box input[type="date"], .kai-form-field__item-box input[type="time"]').forEach(function(input) {
-  input.addEventListener('click', function(e) {
-    this.showPicker && this.showPicker();
-  });
-});
-	
-document.querySelectorAll('.kai-review-switch-row').forEach(function(row) {
-  var radios = row.querySelectorAll('input[type="radio"]');
-  var afterSpan = row.querySelector('.-review-after');
-  var beforeSpan = row.querySelector('.-review-before');
+function initializeCheckboxes() {
+    CheckboxModule.init();
+}
 
-  // Set initial state
-  radios.forEach(function(radio) {
-    const switchElement = radio.closest('label.kai-review-switch');
-    if (switchElement) {
-      switchElement.classList.toggle('-checked', radio.checked);
-    }
-  });
+function initializeCustomSelect() {
+    CustomSelectModule.init();
+}
 
-  radios.forEach(function(radio) {
-    radio.addEventListener('change', function() {
-      // Remove -checked class from all labels first
-      row.querySelectorAll('label.kai-review-switch').forEach(label => {
-        label.classList.remove('-checked');
-      });
+function initializeDisabledStates() {
+    StateManager.init();
+}
 
-      // Add -checked class to the selected radio's label
-      const switchElement = this.closest('label.kai-review-switch');
-      if (switchElement) {
-        switchElement.classList.add('-checked');
-      }
-
-      if (this.value === 'after') {
-        afterSpan.classList.add('-show');
-        beforeSpan.classList.remove('-show');
-      } else {
-        afterSpan.classList.remove('-show');
-        beforeSpan.classList.add('-show');
-      }
-    });
-  });
-});
-});
+// Export modules for testing or external use if needed
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        AccordionModule,
+        CheckboxModule,
+        CustomSelectModule,
+        StateManager,
+        ProgressBarModule,
+        TextareaModule
+    };
+}

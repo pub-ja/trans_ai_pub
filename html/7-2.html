@@ -113,7 +113,17 @@
 				<!-- // 폼박스 -->
 
 				<div class="kai-main__container">
-					<div class="kai-main__control-box -line">
+
+					<div class="kai-result-box">
+						<div class="kai-result-box__icon">
+							<span class="kai-icon -data-none"></span>
+						</div>
+						<div class="kai-result-box__text">
+							<p class="kai-text -large -data-none">검색 결과가 없습니다.</p>
+						</div>
+					</div>
+
+					<div class="kai-main__control-box -line" style="display: none;">
 						<div class="kai-main__control-inner -left">
 							<span class="kai-result-text">총 <em>5</em>건</span>
 
@@ -156,7 +166,7 @@
 					-review 클래스 추가 : 리뷰진행 중 화면
 					-review-search 클ㄹ래스 추가 : 리뷰 검색 화면
 					-->
-					<div class="kai-accordion-group -review-search">
+					<div class="kai-accordion-group -review-search" style="display: none;">
 						<div class="kai-accordion-search__group">
 							<div class="kai-accordion-search-text">
 								<span class="kai-text -positive -bold">2025.01.31</span>
@@ -558,9 +568,9 @@
 						</div>
 					</div>
 
-					<div class="kai-result__more-box">
+					<!-- <div class="kai-result__more-box">
 						<button type="button" class="kai-button -medium -primary-line ">30개 더보기</button>
-					</div>
+					</div> -->
 
 				</div>
 

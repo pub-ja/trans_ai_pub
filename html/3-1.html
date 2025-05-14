@@ -5,15 +5,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Korean Air AI번역</title>
 	<link rel="stylesheet" href="../assets/css/common.css" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+	<!-- datepicker 라이브러리 임의지정 -->
+
+	<!-- min.css 에서 하단에 컬러만 custom 수정 -->
+	<link rel="stylesheet" href="../assets/css/flatpickr.min.custom.css">
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
-	
+
 </head>
 <body>
 	<div class="kai-all-wrap">
-		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙습니다. -->
-		<div class="kai-layout -bottom-on ">
+		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙어야합니다. -->
+		<div class="kai-layout -bottom-on">
 			<header class="kai-header">
 				<h1 class="kai-heading">Korean Air <span>AI 번역</span></h1>
 			</header>
@@ -81,7 +85,6 @@
 											<div class="kai-form-label__wrap">
 												<label class="kai-form-label">
 													문체
-
 												</label>
 											</div>
 										</div>
@@ -121,7 +124,6 @@
 											<div class="kai-form-label__wrap">
 												<label class="kai-form-label">
 													대문자 규칙
-
 												</label>
 											</div>
 										</div>
@@ -163,7 +165,6 @@
 											<div class="kai-form-label__wrap">
 												<label class="kai-form-label">
 													용어 변경
-
 												</label>
 											</div>
 										</div>
@@ -551,7 +552,7 @@
 							<div class="kai-form__content-row">
 								<div class="kai-form__content-col">
 									<div class="kai-form__content-item">
-										<div class="kai-checkbox__group">
+										<div class="kai-checkbox__group" data-group="language">
 											<label class="kai-checkbox -all-check">
 												<input type="checkbox" class="kai-checkbox__item" checked />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
@@ -1588,7 +1589,7 @@
 								</div>
 							</div>
 							<div class="kai-modal__footer">
-								<div class="kai-form__button-group">
+								<div class="kai-modal__button-group">
 									<button type="button" class="kai-button -large -primary-line kai-modal__close">취소</button>
 									<button type="button" class="kai-button -large -primary">저장</button>
 								</div>
@@ -1620,7 +1621,7 @@
 										</colgroup>
 										<tbody>
 											<tr>
-												<th><label class="kai-form-label">리뷰 제목 <span class="kai-form-label__required">*</span></label>
+												<th><span class="kai-form-label">리뷰 제목 <span class="kai-form-label__required">*</span></span>
 												</th>
 												<td>
 													<div class="kai-form-field">
@@ -1632,7 +1633,7 @@
 												</td>
 											</tr>
 											<tr>
-												<th><label class="kai-form-label">리뷰 대상 <span class="kai-form-label__required">*</span></label>
+												<th><span class="kai-form-label">리뷰 대상 <span class="kai-form-label__required">*</span></span>
 												</th>
 												<td>
 													<div class="kai-form__content-group -row -align-flex-start">
@@ -1709,7 +1710,7 @@
 												</td>
 											</tr>
 											<tr>
-												<th><label class="kai-form-label">리뷰 언어 <span class="kai-form-label__required">*</span></label>
+												<th><span class="kai-form-label">리뷰 언어 <span class="kai-form-label__required">*</span></span>
 												</th>
 												<td>
 													<div class="kai-form__content-group -row -align-flex-start">
@@ -1870,7 +1871,7 @@
 												</td>
 											</tr>
 											<tr>
-												<th><label class="kai-form-label">리뷰 기한 <span class="kai-form-label__required">*</span></label>
+												<th><span class="kai-form-label">리뷰 기한 <span class="kai-form-label__required">*</span></span>
 												</th>
 												<td>
 													<div class="kai-form__content-group">
@@ -1906,7 +1907,7 @@
 																<div class="kai-form__content-group">
 																	<div class="kai-form__content-group-item -w100p">
 																		<div class="kai-form-field">
-																			<div class="kai-form-field__item-box -readonly">
+																			<div class="kai-form-field__item-box ">
 																				<input type="text" class="kai-form-field__item" placeholder="파일을 선택해주세요."
 																					value="file-test.png">
 																			</div>
@@ -1929,7 +1930,7 @@
 																<div class="kai-form__content-group">
 																	<div class="kai-form__content-group-item -w100p">
 																		<div class="kai-form-field">
-																			<div class="kai-form-field__item-box -readonly">
+																			<div class="kai-form-field__item-box ">
 																				<input type="text" class="kai-form-field__item" placeholder="-">
 																			</div>
 																		</div>
@@ -1955,7 +1956,8 @@
 												</td>
 											</tr>
 											<tr>
-												<th><label class="kai-form-label">메모</label></th>
+												<th><span class="kai-form-label">메모</sp>
+												</th>
 												<td>
 													<div class="kai-form-field">
 														<div class="kai-form-field__item-box">
@@ -1976,7 +1978,7 @@
 								</div>
 							</div>
 							<div class="kai-modal__footer">
-								<div class="kai-form__button-group">
+								<div class="kai-modal__button-group">
 									<button type="button" class="kai-button -large -primary">리뷰 요청</button>
 								</div>
 							</div>
@@ -1986,8 +1988,10 @@
 			</div>
 		</div>
 
-		
+
 		<script src="../assets/js/components.js"></script>
+
+		<!-- datepicker 임의설정 -->
 		<script>
 			// 날짜 선택
 			flatpickr(".-date .kai-form-field__item", {
@@ -1996,7 +2000,7 @@
 				dateFormat: "Y-m-d",
 				disableMobile: "true"
 			});
-			
+
 			// 시간 선택
 			flatpickr(".-time .kai-form-field__item", {
 				locale: "ko",
@@ -2007,5 +2011,5 @@
 				disableMobile: "true"
 			});
 		</script>
-	</body>
+</body>
 </html>

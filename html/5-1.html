@@ -5,11 +5,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Korean Air AI번역</title>
 	<link rel="stylesheet" href="../assets/css/common.css" />
-	
+
 </head>
 <body>
 	<div class="kai-all-wrap">
-		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙습니다. -->
+		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙어야합니다. -->
 		<div class="kai-layout -bottom-on ">
 			<header class="kai-header">
 				<h1 class="kai-heading">Korean Air <span>AI 번역</span></h1>
@@ -24,6 +24,11 @@
 								<span class="kai-main-top__request-label">요청번호:</span>
 								<span class="kai-main-top__request-number">TR202412010023</span>
 							</div>
+							<!-- 취소일때 -->
+							<!-- <span class="kai-badge -line -cancle">
+								<span class="kai-badge__icon"></span>
+								<span class="kai-badge__text">리뷰취소</span>
+							</span> -->
 							<span class="kai-badge -line -success">
 								<span class="kai-badge__icon"></span>
 								<span class="kai-badge__text">완료</span>
@@ -489,7 +494,7 @@
 										<div class="kai-form__content-group -max-w-400">
 											<div class="kai-form__content-group-item">
 												<div class="kai-form-field">
-													<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+													<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 														data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
 															<span class="kai-custom-select__placeholder">선택</span>
@@ -514,7 +519,7 @@
 											</div>
 											<div class="kai-form__content-group-item -w100p">
 												<div class="kai-form-field">
-													<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+													<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 														data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
 															<span class="kai-custom-select__placeholder">선택</span>
@@ -556,68 +561,68 @@
 							<div class="kai-form__content-row">
 								<div class="kai-form__content-col">
 									<div class="kai-form__content-item">
-										<div class="kai-checkbox__group">
-											<label class="kai-checkbox -all-check -aria-disabled">
+										<div class="kai-checkbox__group" data-group="language">
+											<label class="kai-checkbox -all-check -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">전체</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" checked />
 												<span class="kai-icon -checkbox" aria-hidden="true" checked></span>
 												<span class="kai-checkbox__item-text">en</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">zh_cn</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">zh_hk</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">ja</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">th</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">vi</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">ru</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">fr</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">de</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">es</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">it</span>
 											</label>
-											<label class="kai-checkbox -aria-disabled">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">pt_br</span>
@@ -1360,7 +1365,7 @@
 								</div>
 							</div>
 							<div class="kai-modal__footer">
-								<div class="kai-form__button-group">
+								<div class="kai-modal__button-group">
 									<button type="button" class="kai-button -large -primary-line kai-modal__close">취소</button>
 									<button type="button" class="kai-button -large -primary">저장</button>
 								</div>
@@ -1371,7 +1376,7 @@
 			</div>
 		</div>
 
-		
+
 		<script src="../assets/js/components.js"></script>
 </body>
 </html>

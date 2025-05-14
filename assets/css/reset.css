@@ -87,7 +87,7 @@
 	--color-background-dark: var(--color-neutral-80);
 	--color-background-lightblue: var(--color-brand-lightblue-10);
 	--color-background-accent-blue: var(--color-wcm-main-blue);
-	--field-background-aria-disabled: var(--color-neutral-20);
+	--field-background-disabled: var(--color-neutral-20);
 	--color-background-th: #F8F9FC;
 
 	/* Border Colors */
@@ -354,7 +354,7 @@ table {
 	--color-background-dark: var(--color-neutral-80);
 	--color-background-lightblue: var(--color-brand-lightblue-10);
 	--color-background-accent-blue: var(--color-wcm-main-blue);
-	--field-background-aria-disabled: var(--color-neutral-20);
+	--field-background-disabled: var(--color-neutral-20);
 	--color-background-th: #F8F9FC;
 
 	/* Border Colors */

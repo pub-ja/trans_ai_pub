@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Korean Air AI번역</title>
 	<link rel="stylesheet" href="../assets/css/common.css" />
-	
+
 </head>
 <body>
 	<div class="kai-all-wrap">
@@ -531,7 +531,7 @@
 							<div class="kai-form__content-row">
 								<div class="kai-form__content-col">
 									<div class="kai-form__content-item">
-										<div class="kai-checkbox__group">
+										<div class="kai-checkbox__group" data-group="language">
 											<label class="kai-checkbox -all-check">
 												<input type="checkbox" class="kai-checkbox__item" checked />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
@@ -610,15 +610,27 @@
 				<!-- // 폼박스 -->
 
 				<div class="kai-main__container">
-					<!-- Progress Bar Container 추가 -->
+
+					<!-- Progress Bar -->
 					<div class="kai-progressbar-container">
 						<div class="kai-progressbar-label">총 12건 번역 중</div>
 						<div class="kai-progressbar-percent">50%</div>
-						<!-- 프로그레스바와 스피너를 둘 다 넣고, JS로 토글 -->
-						<div class="kai-progressbar-bar" style="display: block;">
+
+						<!-- 프로그레스바와 버튼 -->
+						<div class="kai-progressbar-bar">
 							<div class="kai-progressbar-bar__inner" style="width: 50%;"></div>
 						</div>
 						<button type="button" class="kai-button -medium -line">번역 중지</button>
+
+
+						<!-- 100%되면 로딩 스피너
+						 	<div class="kai-progressbar-spinner">
+							<svg class="kai-spinner" width="48" height="48" viewBox="0 0 48 48">
+								<circle class="kai-spinner-bg" cx="24" cy="24" r="20" fill="none" stroke="#e9eaf0" stroke-width="4" />
+								<circle class="kai-spinner-fg" cx="24" cy="24" r="20" fill="none" stroke="#0a1a57" stroke-width="4"
+									stroke-linecap="round" stroke-dasharray="100" stroke-dashoffset="75" />
+							</svg>
+						</div> -->
 					</div>
 
 					<!-- 
@@ -1385,7 +1397,7 @@
 								</div>
 							</div>
 							<div class="kai-modal__footer">
-								<div class="kai-form__button-group">
+								<div class="kai-modal__button-group">
 									<button type="button" class="kai-button -large -primary-line kai-modal__close">취소</button>
 									<button type="button" class="kai-button -large -primary">저장</button>
 								</div>
@@ -1396,7 +1408,7 @@
 			</div>
 		</div>
 
-		
+
 		<script src="../assets/js/components.js"></script>
 </body>
 </html>

@@ -6,6 +6,10 @@
 	<title>Korean Air AI번역 - 페이지 목록</title>
 	<link rel="stylesheet" href="assets/css/common.css" />
 	<style>
+		body {
+			overflow-y: hidden;
+		}
+
 		.kai-index-table {
 			width: 100%;
 			border-collapse: collapse;
@@ -48,10 +52,14 @@
 		}
 
 		.kai-index-table-wrap {
+			position: relative;
+			height: 100vh;
+			overflow-y: auto;
 			width: 30%;
 			padding: 2rem;
-			overflow-y: auto;
 			border-right: 1px solid var(--color-neutral-30);
+			scrollbar-width: thin;
+			scrollbar-color: rgb(118, 118, 118) transparent;
 		}
 	</style>
 </head>
@@ -126,6 +134,10 @@
 								<td></td>
 							</tr>
 							<tr>
+								<td><a href="./html/5-2.html">5-2 리뷰취소</a></td>
+								<td></td>
+							</tr>
+							<tr>
 								<td><a href="./html/6-1.html">6-1 리뷰어</a></td>
 								<td></td>
 							</tr>
@@ -134,7 +146,15 @@
 								<td></td>
 							</tr>
 							<tr>
+								<td><a href="./html/6-3.html">6-3 리뷰어 - 리뷰취소 </a></td>
+								<td></td>
+							</tr>
+							<tr>
 								<td><a href="./html/7-1.html">7-1 내 리뷰 검색</a></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><a href="./html/7-2.html">7-2 내 리뷰 검색 - 데이터 없음</a></td>
 								<td></td>
 							</tr>
 						</tbody>
@@ -147,13 +167,13 @@
 		</div>
 	</div>
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
+		document.addEventListener('DOMContentLoaded', function () {
 			// 첫 번째 파일을 기본으로 로드
 			document.getElementById('previewFrame').src = './html/1-1.html';
 
 			const links = document.querySelectorAll('.kai-index-table td a');
 			links.forEach(link => {
-				link.addEventListener('click', function(e) {
+				link.addEventListener('click', function (e) {
 					e.preventDefault();
 					document.getElementById('previewFrame').src = this.href;
 				});

@@ -5,11 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Korean Air AI번역</title>
 	<link rel="stylesheet" href="../assets/css/common.css" />
-	
 </head>
 <body>
 	<div class="kai-all-wrap">
-		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙습니다. -->
+		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙어야합니다. -->
 		<div class="kai-layout -bottom-on ">
 			<header class="kai-header">
 				<h1 class="kai-heading">Korean Air <span>AI 번역</span></h1>
@@ -110,8 +109,8 @@
 										</div>
 										<div class="kai-form__content-group">
 											<div class="kai-form__content-group-item -w100p">
-												<div class="kai-form-field -aria-disabled">
-													<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+												<div class="kai-form-field">
+													<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 														data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
 															<span class="kai-custom-select__placeholder">선택하세요</span>
@@ -153,7 +152,7 @@
 										<div class="kai-form__content-group">
 											<div class="kai-form__content-group-item -w100p">
 												<div class="kai-form-field">
-													<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+													<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 														data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
 															<span class="kai-custom-select__placeholder">선택하세요</span>
@@ -199,7 +198,7 @@
 													<div class="kai-form__content-group -w82p">
 														<div class="kai-form__content-group-item">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+																<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 																	data-has-value="true">
 																	<div class="kai-custom-select__trigger kai-form-field__item">
 																		<span class="kai-custom-select__placeholder">선택하세요</span>
@@ -224,7 +223,7 @@
 														</div>
 														<div class="kai-form__content-group-item -w100p">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box -aria-disabled">
+																<div class="kai-form-field__item-box -disabled">
 																	<input type="text" class="kai-form-field__item" placeholder="입력하세요."
 																		value="Korean Air" />
 																</div>
@@ -237,7 +236,7 @@
 													<div class="kai-form__content-group">
 														<div class="kai-form__content-group-item">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+																<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 																	data-has-value="true">
 																	<div class="kai-custom-select__trigger kai-form-field__item">
 																		<span class="kai-custom-select__placeholder">선택하세요</span>
@@ -262,7 +261,7 @@
 														</div>
 														<div class="kai-form__content-group-item -w100p">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box -aria-disabled">
+																<div class="kai-form-field__item-box -disabled">
 																	<input type="text" class="kai-form-field__item" placeholder="입력하세요." value="We" />
 																</div>
 															</div>
@@ -275,7 +274,7 @@
 													<div class="kai-form__content-group -w82p">
 														<div class="kai-form__content-group-item">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+																<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 																	data-has-value="true">
 																	<div class="kai-custom-select__trigger kai-form-field__item">
 																		<span class="kai-custom-select__placeholder">선택하세요</span>
@@ -300,7 +299,7 @@
 														</div>
 														<div class="kai-form__content-group-item -w100p">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box -aria-disabled">
+																<div class="kai-form-field__item-box -disabled">
 																	<input type="text" class="kai-form-field__item" placeholder="입력하세요." value="보너스 티켓" />
 																</div>
 															</div>
@@ -312,7 +311,7 @@
 													<div class="kai-form__content-group">
 														<div class="kai-form__content-group-item">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box kai-custom-select -single -aria-disabled"
+																<div class="kai-form-field__item-box kai-custom-select -single -disabled"
 																	data-has-value="true">
 																	<div class="kai-custom-select__trigger kai-form-field__item">
 																		<span class="kai-custom-select__placeholder">선택하세요</span>
@@ -337,7 +336,7 @@
 														</div>
 														<div class="kai-form__content-group-item -w100p">
 															<div class="kai-form-field">
-																<div class="kai-form-field__item-box -aria-disabled">
+																<div class="kai-form-field__item-box -disabled">
 																	<input type="text" class="kai-form-field__item" placeholder="입력하세요."
 																		value="Award Ticket" />
 																</div>
@@ -557,7 +556,7 @@
 								<!-- 리뷰어 화면에만 있는 -reviewer elements -->
 								<div class="kai-accordion-content__elements -reviewer">
 									<div class="kai-form-field">
-										<div class="kai-form-field__item-box -aria-disabled">
+										<div class="kai-form-field__item-box -disabled">
 											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">更改完成 | 大韩航空</textarea>
 										</div>
 									</div>
@@ -654,7 +653,11 @@ You will be redirected to the flight search page to rechoose passengers. → 请
 									<span class="kai-text-list__value">2025-01-05 16:01</span>
 								</li>
 							</ul>
+
+							<!-- 완료 -positive 클래스
+							 		 취소 -secondary 클래스 -->
 							<p class="kai-text -positive -bold -large">리뷰 완료</p>
+							<!-- <p class="kai-text -secondary -bold -large">리뷰 취소</p> -->
 							<!-- <div class="kai-button-group">
 								<button type="button" class="kai-button -large -primary">리뷰완료</button>
 							</div> -->
@@ -693,7 +696,7 @@ You will be redirected to the flight search page to rechoose passengers. → 请
 								</div>
 							</div>
 							<div class="kai-modal__footer">
-								<div class="kai-form__button-group">
+								<div class="kai-modal__button-group">
 									<button type="button" class="kai-button -large -primary-line kai-modal__close">취소</button>
 									<button type="button" class="kai-button -large -primary">저장</button>
 								</div>
@@ -704,107 +707,8 @@ You will be redirected to the flight search page to rechoose passengers. → 请
 			</div>
 		</div>
 
-		
+
 		<script src="../assets/js/components.js"></script>
-		<script>
-			document.addEventListener('DOMContentLoaded', function () {
-				// disabled 처리 함수
-				function handleDisabledState() {
-					const disabledBoxes = document.querySelectorAll('.kai-form-field__item-box.-aria-disabled, .kai-form-field__item-box.-disabled');
-					disabledBoxes.forEach(box => {
-						const inputs = box.querySelectorAll('input, textarea');
-						inputs.forEach(input => {
-							input.disabled = true;
-						});
-					});
-				}
-
-				// 초기 실행
-				handleDisabledState();
-
-				// 토글 버튼 이벤트 처리
-				const toggleButtons = document.querySelectorAll('.kai-toggle-icon-button');
-				toggleButtons.forEach(button => {
-					const input = button.querySelector('input[type="checkbox"]');
-					const targetId = button.getAttribute('data-target');
-
-					input.addEventListener('change', function () {
-						// -checked 클래스 토글
-						if (this.checked) {
-							button.classList.add('-checked');
-						} else {
-							button.classList.remove('-checked');
-						}
-
-						// additional-sheet 토글
-						const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
-						const layout = document.querySelector('.kai-layout');
-						if (targetId === 'additional-sheet') {
-							if (this.checked) {
-								additionalSheet.classList.add('-open');
-								// 기본 bottom 높이 가져오기
-								const mainBottom = document.querySelector('.kai-main-bottom:not(.-additional-sheet)');
-								const mainBottomHeight = mainBottom.offsetHeight;
-								// additional-sheet의 위치를 기본 bottom의 높이만큼 조정
-								additionalSheet.style.bottom = mainBottomHeight + 'px';
-
-								// 모든 kai-main-bottom의 높이 합계 계산
-								const mainBottoms = document.querySelectorAll('.kai-main-bottom');
-								let totalHeight = 0;
-								mainBottoms.forEach(bottom => {
-									totalHeight += bottom.offsetHeight;
-								});
-
-								// 1rem을 픽셀로 변환 (기본값 16px)
-								const oneRem = 16;
-
-								// kai-layout의 하단 패딩을 모든 bottom 높이 합 + 1rem으로 설정
-								layout.style.paddingBottom = (totalHeight + oneRem) + 'px';
-
-								// 바텀시트가 열린 후 textarea 높이 재계산
-								setTimeout(() => {
-									const textareas = additionalSheet.querySelectorAll('.kai-form-field__item');
-									textareas.forEach(textarea => {
-										textarea.style.height = 'auto';
-										textarea.style.height = textarea.scrollHeight + 'px';
-									});
-								}, 100);
-							} else {
-								additionalSheet.classList.remove('-open');
-								// additional-sheet의 위치 초기화
-								additionalSheet.style.bottom = '';
-								// kai-layout의 하단 패딩 초기화
-								layout.style.paddingBottom = '';
-							}
-						}
-					});
-				});
-
-				// 바텀시트 닫기 버튼 이벤트 처리
-				const closeButton = document.querySelector('.kai-main-bottom-sheet__button-close');
-				if (closeButton) {
-					closeButton.addEventListener('click', function () {
-						const additionalSheet = document.querySelector('.kai-main-bottom.-additional-sheet');
-						const layout = document.querySelector('.kai-layout');
-
-						// 바텀시트 닫기
-						additionalSheet.classList.remove('-open');
-						additionalSheet.style.bottom = '';
-						layout.style.paddingBottom = '';
-
-						// 토글 버튼 상태 해제
-						const toggleButton = document.querySelector('.kai-toggle-icon-button[data-target="additional-sheet"]');
-						if (toggleButton) {
-							toggleButton.classList.remove('-checked');
-							const input = toggleButton.querySelector('input[type="checkbox"]');
-							if (input) {
-								input.checked = false;
-							}
-						}
-					});
-				}
-			});
-		</script>
 	</div>
 </body>
 </html>

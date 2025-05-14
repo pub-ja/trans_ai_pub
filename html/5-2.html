@@ -9,18 +9,44 @@
 </head>
 <body>
 	<div class="kai-all-wrap">
-		<div class="kai-layout">
+		<!-- bottom-sheet 가 있으면 -bottom-on 클래스가 붙어야합니다. -->
+		<div class="kai-layout -bottom-on ">
 			<header class="kai-header">
 				<h1 class="kai-heading">Korean Air <span>AI 번역</span></h1>
 			</header>
 
 			<main class="kai-main">
+
 				<div class="kai-main-top">
 					<div class="kai-main-top__left">
 						<div class="kai-main-top__request-info">
 							<div class="kai-main-top__request-info-item">
 								<span class="kai-main-top__request-label">요청번호:</span>
 								<span class="kai-main-top__request-number">TR202412010023</span>
+							</div>
+							<span class="kai-badge -line -cancle">
+								<span class="kai-badge__icon"></span>
+								<span class="kai-badge__text">리뷰취소</span>
+							</span>
+						</div>
+						<div class="kai-main-top__page-details">
+							<div class="kai-main-top__page-details-item">
+								<span class="kai-main-top__page-details-label">제목:</span>
+								<div class="kai-text-button -icon-button">
+									<span class="kai-text-button__text">항공권 Step2 업데이트</span>
+									<button class="kai-text-button__icon -text" data-modal="applyAiTr">
+										<span class="_hidden">수정</span>
+										<span class="kai-icon -write"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-main-top__page-details-item">
+								<span class="kai-main-top__page-details-label">등록:</span>
+								<span>2025-01-01 15:01</span>
+							</div>
+							<div class="kai-main-top__page-details-item">
+								<span class="kai-main-top__page-details-label">리뷰 요청:</span>
+								<span>2025-01-01 15:01</span>
 							</div>
 						</div>
 					</div>
@@ -35,8 +61,8 @@
 								</span>
 							</label>
 							<!-- 프롬프트 토글을 checked 하면  에 -visible 클래스가 토글됩니다. kai-accordion-group에 -compare-open 클래스가 토글됩니다. -->
-							<label class="kai-switch -large" data-control="prompt-toggle">
-								<input type="checkbox" class="kai-switch__input" />
+							<label class="kai-switch -large -disabled" data-control="prompt-toggle">
+								<input type="checkbox" class="kai-switch__input" disabled />
 								<span class="kai-switch__track">
 									<span class="kai-switch__text">프롬프트</span>
 									<span class="kai-switch__handler"></span>
@@ -59,14 +85,12 @@
 											<div class="kai-form-label__wrap">
 												<label class="kai-form-label">
 													문체
+
 												</label>
 											</div>
 										</div>
 										<div class="kai-form__content-group">
 											<div class="kai-form__content-group-item -w100p">
-												<!-- 폼필드의 경우 
-												 kai-form-field__item-box 에 
-												 -disabled 클래스를 붙이면 disabled 상태가 됩니다. -->
 												<div class="kai-form-field">
 													<div class="kai-form-field__item-box kai-custom-select -single" data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
@@ -449,7 +473,7 @@
 					kai-form__container 에 -open 클래스 붙어서 
 					kai-form__content 컨텐츠에 체크박스가 보이게 됩니다.
 					-->
-					<div class="kai-form__container -foldable-box">
+					<div class="kai-form__container -foldable-box -open">
 						<div class="kai-form__top">
 							<div class="kai-form__content-row -space-between">
 								<div class="kai-form__content-col">
@@ -458,13 +482,15 @@
 											<div class="kai-form-label__wrap">
 												<label class="kai-form-label">
 													번역 언어
+
 												</label>
 											</div>
 										</div>
 										<div class="kai-form__content-group -max-w-400">
 											<div class="kai-form__content-group-item">
 												<div class="kai-form-field">
-													<div class="kai-form-field__item-box kai-custom-select -single" data-has-value="true">
+													<div class="kai-form-field__item-box kai-custom-select -single -disabled"
+														data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
 															<span class="kai-custom-select__placeholder">선택</span>
 															<span class="kai-custom-select__text">ko</span>
@@ -488,10 +514,11 @@
 											</div>
 											<div class="kai-form__content-group-item -w100p">
 												<div class="kai-form-field">
-													<div class="kai-form-field__item-box kai-custom-select -single">
+													<div class="kai-form-field__item-box kai-custom-select -single -disabled"
+														data-has-value="true">
 														<div class="kai-custom-select__trigger kai-form-field__item">
 															<span class="kai-custom-select__placeholder">선택</span>
-															<span class="kai-custom-select__text">선택 텍스트</span>
+															<span class="kai-custom-select__text">언어 직접 선택</span>
 															<span class="kai-custom-select__arrow">
 																<span class="kai-icon -arrow-down"></span>
 															</span>
@@ -500,7 +527,7 @@
 															<button class="kai-custom-select__option" data-value="en">
 																<span>en</span>
 															</button>
-															<button class="kai-custom-select__option" data-value="언어 직접 선택">
+															<button class="kai-custom-select__option" data-value="언어 직접 선택" data-selected="true">
 																<span>언어 직접 선택</span>
 															</button>
 															<button class="kai-custom-select__option" data-value="en 번역 후 다국어">
@@ -519,91 +546,79 @@
 										</div>
 									</div>
 								</div>
-								<div class="kai-form__button-group">
-									<!-- 첫페이지 초기화 버튼 제외 -->
-									<!-- <button type="button" class="kai-button -medium -primary-line">초기화</button> -->
-
-									<!--
-									번역하기 팝업 오픈 
-									data-modal="modalID" 와 modal의 id="modalID"를 연결합니다.  
-									modal data-open="true" 로 변경되고 해당 모달이 보입니다.
-									-->
-									<button type="button" class="kai-button -medium -primary" data-modal="applyAiTr">번역하기</button>
-								</div>
+								<!-- <div class="kai-form__button-group">
+									<button type="button" class="kai-button -medium -primary-line">초기화</button>
+									<button type="button" class="kai-button -medium -primary">번역하기</button>
+								</div> -->
 							</div>
 						</div>
 						<div class="kai-form__content">
 							<div class="kai-form__content-row">
 								<div class="kai-form__content-col">
 									<div class="kai-form__content-item">
-										<!-- 체크 박스 사용
-										data-group="임의" 로 묶고 
-										-all-check 클래스로 
-										전체 선택이 있는 경우 체크 박스 표시
-										-->
 										<div class="kai-checkbox__group" data-group="language">
-											<label class="kai-checkbox -all-check">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -all-check -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">전체</span>
 											</label>
-											<label class="kai-checkbox">
+											<label class="kai-checkbox -disabled">
 												<input type="checkbox" class="kai-checkbox__item" checked />
 												<span class="kai-icon -checkbox" aria-hidden="true" checked></span>
 												<span class="kai-checkbox__item-text">en</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">zh_cn</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">zh_hk</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">ja</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">th</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">vi</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">ru</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">fr</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">de</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">es</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">it</span>
 											</label>
-											<label class="kai-checkbox">
-												<input type="checkbox" class="kai-checkbox__item" checked />
+											<label class="kai-checkbox -disabled">
+												<input type="checkbox" class="kai-checkbox__item" />
 												<span class="kai-icon -checkbox" aria-hidden="true"></span>
 												<span class="kai-checkbox__item-text">pt_br</span>
 											</label>
@@ -613,7 +628,7 @@
 							</div>
 						</div>
 					</div>
-					<p class="kai-text -error">에러 메세지입니다.</p>
+					<!-- <p class="kai-text -error">에러 메세지입니다.</p> -->
 					<!-- // folable-box -->
 
 				</div>
@@ -624,13 +639,13 @@
 						<div class="kai-main__control-inner -left">
 							<span class="kai-result-text">총 <em>5</em>건</span>
 
-							<!-- 체크 박스 있을때 필요한 전체 선택 토글버튼 -->
-							<!-- <label class="kai-toggle-button" data-control="all-items">
+							<!-- 전체 선택 토글버튼 -->
+							<label class="kai-toggle-button" data-control="all-items">
 								<input type="checkbox" class="kai-toggle-button__input" />
 								<span class="kai-icon -check"></span>
 								<span class="kai-toggle-button__text -active">전체 해제</span>
 								<span class="kai-toggle-button__text">전체 선택</span>
-							</label> -->
+							</label>
 							<!-- // 전체 선택 토글버튼 -->
 
 						</div>
@@ -656,38 +671,35 @@
 					kai-accordion-group 타입 
 
 					-use-checkbox 클래스 추가 : 체크박스 마크업 view 
-					체크 박스 view 에서 패딩값이 달라서 클래스가 함께 추가 되어야 합니다. 참고 부탁드립니다.
+					체크 박스 view 에서 
+					패딩값이 달라서 클래스가 함께 추가 되어야 합니다. 참고 부탁드립니다.
 
 					-compare-open 클래스 추가 : wcm,hp 버전 view (상단 번역 비교 스위치에서 토글)
 					-review 클래스 추가 : 리뷰진행 중 화면
-					-review-search 클ㄹ래스 추가 : 리뷰 검색 화면
-
 					-->
-					<div class="kai-accordion-group">
-
-						<!-- 아코디언 열림 -open 클래스 추가 -->
+					<div class="kai-accordion-group -use-checkbox -review">
 						<div class="kai-accordion-item -open">
 							<div class="kai-accordion-header">
 								<div class="kai-accordion-header__inner -left">
-
-									<!-- 체크 박스는 마크업이 없어도 됩니다. 
-									있어도 상위 kai-accordion-group 의 -use-checkbox 클래스로 view가 조절됩니다.
-									
-									-use-checkbox > kai-checkbox 가 보임 
-									클래스 없으면 기본 kai-accordion-header__text가 보입니다.
-									이 페이지는 kai-accordion-header__text 만 있어도 됩니다.
-									-->
-
-									<!-- checkbox 마크업이 없는 경우 -->
-									<!-- <label class="kai-checkbox -large">
+									<label class="kai-checkbox -large">
 										<input type="checkbox" class="kai-checkbox__item" />
 										<span class="kai-icon -checkbox" aria-hidden="true"></span>
 										<span class="kai-checkbox__item-text">W041547</span>
-									</label> -->
-
+									</label>
 									<span class="kai-accordion-header__text">W041547</span>
 								</div>
 								<div class="kai-accordion-header__inner -right">
+									<div class="kai-accordion__elements">
+										<span class="kai-text -small -secondary">2025-01-05 16:01</span>
+										<!-- badge 
+										 완료 -success 
+										 진행중 -ing 
+										 -->
+										<span class="kai-badge -line -success">
+											<span class="kai-badge__icon"></span>
+											<span class="kai-badge__text"><em>1</em>/1</span>
+										</span>
+									</div>
 									<button class="kai-accordion__toggle">
 										<span class="kai-icon -arrow-down"></span>
 									</button>
@@ -695,10 +707,133 @@
 							</div>
 							<div class="kai-accordion-content">
 
-								<!-- 언어별 
-								 -main, 
-								 -compare 2개로 그룹입니다. 
+								<!-- 언어별 -main, -compare 2개로 그룹입니다. 
 								번역 비교일때 -compare 영역이 보여집니다. -->
+								<!-- ko -->
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">ko</span>
+										</label>
+										<span class="kai-label-code-text">ko</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text">항공권 변경 완료 | 대한항공</p>
+									</div>
+									<!-- <div class="kai-form-field">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">항공권 변경 완료 | 대한항공</textarea>
+										</div>
+									</div> -->
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">항공권 변경 완료 | 대한항공</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -data-none">데이터 없음</p>
+									</div>
+								</div>
+								<!-- // ko -->
+
+								<!-- en -->
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">en</span>
+										</label>
+										<span class="kai-label-code-text">en</span>
+									</div>
+									<div class="kai-review-switch-row">
+										<label class="kai-review-switch" for="en_1">
+											<input type="radio" name="review_en_1" value="after" id="en_1" checked>
+											<span class="kai-review-switch__text">리뷰 후</span>
+										</label>
+										<label class="kai-review-switch" for="en_2">
+											<input type="radio" name="review_en_1" value="before" id="en_2">
+											<span class="kai-review-switch__text">리뷰 전</span>
+										</label>
+										<span class="kai-review-text -review-after -show">Change Complete | Korean Air 리뷰후 text
+											sample</span>
+										<span class="kai-review-text -review-before">Change Complete | Korean Air 리뷰전 text
+											sample</span>
+									</div>
+									<!-- <div class="kai-form-field">
+										<div class="kai-form-field__item-box">
+											<textarea class="kai-form-field__item" placeholder="입력하세요."
+												rows="1">Change Complete | Korean Air</textarea>
+										</div>
+									</div> -->
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">Change Complete | Korean Air</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">Change Complete | Korean Air</p>
+									</div>
+								</div>
+								<!-- // en -->
+
+							</div>
+						</div>
+
+						<div class="kai-accordion-item -open">
+							<div class="kai-accordion-header">
+								<div class="kai-accordion-header__inner -left">
+									<label class="kai-checkbox -large">
+										<input type="checkbox" class="kai-checkbox__item" />
+										<span class="kai-icon -checkbox" aria-hidden="true"></span>
+										<span class="kai-checkbox__item-text">W041548</span>
+									</label>
+									<span class="kai-accordion-header__text">W041548</span>
+								</div>
+								<div class="kai-accordion-header__inner -right">
+									<div class="kai-accordion__elements">
+										<!-- ing 는 날짜 없음 -->
+										<span class="kai-text -small -secondary">2025-01-05 16:01</span>
+										<!-- badge 
+												완료 -success 
+												진행중 -ing 
+												-->
+										<span class="kai-badge -line -success">
+											<span class="kai-badge__icon"></span>
+											<span class="kai-badge__text"><em>1</em>/1</span>
+										</span>
+									</div>
+									<button class="kai-accordion__toggle">
+										<span class="kai-icon -arrow-down"></span>
+									</button>
+								</div>
+							</div>
+							<div class="kai-accordion-content">
+
+								<!-- 언어별 -main, -compare 2개로 그룹입니다. 
+											번역 비교일때 -compare 영역이 보여집니다. -->
 
 								<!-- ko -->
 								<div class="kai-accordion-content__elements -main">
@@ -710,20 +845,14 @@
 										</label>
 										<span class="kai-label-code-text">ko</span>
 									</div>
-
-									<!-- 텍스트가 늘어날때 height 가 늘어나야해서 textarea를 사용합니다.
-									height 늘어나게 ui 스크립트는 넣어놓았습니다. 
-									rows를 1로 놔야 input과 height가 같은 초기 사이즈로 나옵니다.
-									-->
-									<!-- 폼필드는 kai-form-field__item-box 에 
-									 -disabled 클래스를 추가하면 disabled 입니다. -->
-									<div class="kai-form-field">
-										<div class="kai-form-field__item-box">
-											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">항공권 변경 완료 | 대한항공</textarea>
-										</div>
-										<!-- 폼필드 에러가 필요하면 여기에 넣습니다. -->
-										<!-- <p class="kai-text -error -small">에러메세지</p> -->
+									<div class="kai-language-text -text">
+										<p class="kai-text">가까운 날짜 함께 조회</p>
 									</div>
+									<!-- <div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">가까운 날짜 함께 조회</textarea>
+																</div>
+															</div> -->
 								</div>
 								<div class="kai-accordion-content__elements -compare">
 									<div class="kai-label-code">
@@ -731,11 +860,7 @@
 										<span class="kai-label-badge">WCM</span>
 									</div>
 									<div class="kai-language-text -text">
-										<!--
-												데이터가 있는 경우 -secondary 클래스 : 회색
-												데이터가 없는 경우 -data-none 클래스 : 더 연한 회색
-										-->
-										<p class="kai-text -secondary">항공권 변경 완료 | 대한항공</p>
+										<p class="kai-text -secondary">가까운 날짜 함께 조회</p>
 									</div>
 								</div>
 								<div class="kai-accordion-content__elements -compare">
@@ -744,81 +869,63 @@
 										<span class="kai-label-badge">HP</span>
 									</div>
 									<div class="kai-language-text -text">
-										<!-- 데이터가 있는 경우 -secondary 클래스
-										<p class="kai-text -secondary">항공권 변경 완료 | 대한항공</p>
-										-->
-										<!-- 데이터가 없는 경우 -data-none 클래스 -->
-										<p class="kai-text -data-none">데이터 없음</p>
+										<p class="kai-text -secondary">가까운 날짜 함께 조회</p>
 									</div>
 								</div>
-								<!-- //ko -->
+								<!-- // ko -->
 
-							</div>
-						</div>
-						<div class="kai-accordion-item -open">
-							<div class="kai-accordion-header">
-								<div class="kai-accordion-header__inner -left">
-
-									<!-- checkbox 마크업이 있는 경우 -->
-									<label class="kai-checkbox -large">
-										<input type="checkbox" class="kai-checkbox__item" />
-										<span class="kai-icon -checkbox" aria-hidden="true"></span>
-										<span class="kai-checkbox__item-text">W041548</span>
-									</label>
-									<span class="kai-accordion-header__text">W041548</span>
-								</div>
-								<div class="kai-accordion-header__inner -right">
-									<button class="kai-accordion__toggle">
-										<span class="kai-icon -arrow-down"></span>
-									</button>
-								</div>
-							</div>
-							<div class="kai-accordion-content">
-
-								<!-- 언어 기본 elements group : 기본 한 세트입니다. 
-											다른 언어 추가 참고 1-5.html -->
-
-								<!-- 기본 elements -->
+								<!-- en -->
 								<div class="kai-accordion-content__elements -main">
 									<div class="kai-label-code">
 										<label class="kai-checkbox">
 											<input type="checkbox" class="kai-checkbox__item" />
 											<span class="kai-icon -checkbox" aria-hidden="true"></span>
-											<span class="kai-checkbox__item-text">ko</span>
+											<span class="kai-checkbox__item-text">en</span>
 										</label>
-										<span class="kai-label-code-text">ko</span>
+										<span class="kai-label-code-text">en</span>
 									</div>
-									<div class="kai-form-field">
-										<div class="kai-form-field__item-box">
-											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">가까운 날짜 함께 조회</textarea>
-										</div>
+									<div class="kai-review-switch-row">
+										<label class="kai-review-switch" for="en_2-1">
+											<input type="radio" name="review_en_2" value="after" id="en_2-1" checked>
+											<span class="kai-review-switch__text">리뷰 후</span>
+										</label>
+										<label class="kai-review-switch" for="en_2-2">
+											<input type="radio" name="review_en_2" value="before" id="en_2-2">
+											<span class="kai-review-switch__text">리뷰 전</span>
+										</label>
+										<span class="kai-review-text -review-after -show">Flexible dates</span>
+										<span class="kai-review-text -review-before">Flexible dates</span>
 									</div>
+									<!-- <div class="kai-form-field">
+												<div class="kai-form-field__item-box">
+													<textarea class="kai-form-field__item" placeholder="입력하세요."
+														rows="1">Flexible dates</textarea>
+												</div>
+											</div> -->
 								</div>
-
-								<!-- 번역비교 elements -->
 								<div class="kai-accordion-content__elements -compare">
 									<div class="kai-label-code">
-										<span class="kai-code-text">ko</span>
+										<span class="kai-code-text">en</span>
 										<span class="kai-label-badge">WCM</span>
 									</div>
 									<div class="kai-language-text -text">
-										<p class="kai-text -secondary">가까운 날짜 함께 조회</p>
+										<p class="kai-text -secondary">Flexible dates</p>
 									</div>
 								</div>
 								<div class="kai-accordion-content__elements -compare">
 									<div class="kai-label-code">
-										<span class="kai-code-text">ko</span>
+										<span class="kai-code-text">en</span>
 										<span class="kai-label-badge">HP</span>
 									</div>
 									<div class="kai-language-text -text">
-										<p class="kai-text -secondary">가까운 날짜 함께 조회</p>
+										<p class="kai-text -secondary">Flexible dates</p>
 									</div>
 								</div>
-								<!-- //번역비교 elements -->
-								<!-- // 언어 기본 elements group : 기본 한 세트입니다.-->
+								<!-- // en -->
 
 							</div>
 						</div>
+
 						<div class="kai-accordion-item -open">
 							<div class="kai-accordion-header">
 								<div class="kai-accordion-header__inner -left">
@@ -830,12 +937,29 @@
 									<span class="kai-accordion-header__text">W041549</span>
 								</div>
 								<div class="kai-accordion-header__inner -right">
+									<div class="kai-accordion__elements">
+										<!-- ing 는 날짜 없음 -->
+										<span class="kai-text -small -secondary">2025-01-05 16:01</span>
+										<!-- badge 
+												완료 -success 
+												진행중 -ing 
+												-->
+										<span class="kai-badge -line -success">
+											<span class="kai-badge__icon"></span>
+											<span class="kai-badge__text"><em>1</em>/1</span>
+										</span>
+									</div>
 									<button class="kai-accordion__toggle">
 										<span class="kai-icon -arrow-down"></span>
 									</button>
 								</div>
 							</div>
 							<div class="kai-accordion-content">
+
+								<!-- 언어별 -main, -compare 2개로 그룹입니다. 
+																	번역 비교일때 -compare 영역이 보여집니다. -->
+
+								<!-- ko -->
 								<div class="kai-accordion-content__elements -main">
 									<div class="kai-label-code">
 										<label class="kai-checkbox">
@@ -845,12 +969,14 @@
 										</label>
 										<span class="kai-label-code-text">ko</span>
 									</div>
-									<div class="kai-form-field">
-										<div class="kai-form-field__item-box">
-											<textarea class="kai-form-field__item" placeholder="입력하세요."
-												rows="1">목적지의 보너스 좌석 상황을 이메일로 알려드려요</textarea>
-										</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text">목적지의 보너스 좌석 상황을 이메일로 알려드려요</p>
 									</div>
+									<!-- <div class="kai-form-field">
+												<div class="kai-form-field__item-box">
+													<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">목적지의 보너스 좌석 상황을 이메일로 알려드려요</textarea>
+												</div>
+											</div> -->
 								</div>
 								<div class="kai-accordion-content__elements -compare">
 									<div class="kai-label-code">
@@ -870,8 +996,64 @@
 										<p class="kai-text -secondary">목적지의 보너스 좌석 상황을 이메일로 알려드려요</p>
 									</div>
 								</div>
+								<!-- // ko -->
+
+								<!-- en -->
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">en</span>
+										</label>
+										<span class="kai-label-code-text">en</span>
+									</div>
+									<div class="kai-review-switch-row">
+										<label class="kai-review-switch" for="en_3-1">
+											<input type="radio" name="review_en_3" value="after" id="en_3-1" checked>
+											<span class="kai-review-switch__text">리뷰 후</span>
+										</label>
+										<label class="kai-review-switch" for="en_3-2">
+											<input type="radio" name="review_en_3" value="before" id="en_3-2">
+											<span class="kai-review-switch__text">리뷰 전</span>
+										</label>
+										<span class="kai-review-text -review-after -show">We will notify you via email regarding award seat
+											availability for your destination.</span>
+										<span class="kai-review-text -review-before">We will notify you via email regarding award seat
+											availability for your destination</span>
+									</div>
+									<!-- <div class="kai-form-field">
+												<div class="kai-form-field__item-box">
+													<textarea class="kai-form-field__item" placeholder="입력하세요."
+														rows="1">Flexible dates</textarea>
+												</div>
+											</div> -->
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">en</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">We will notify you via email regarding award seat availability for
+											your destination</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">en</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">We will notify you via email regarding award seat availability for
+											your destination</p>
+									</div>
+								</div>
+								<!-- // en -->
+
 							</div>
 						</div>
+
 						<div class="kai-accordion-item -open">
 							<div class="kai-accordion-header">
 								<div class="kai-accordion-header__inner -left">
@@ -883,12 +1065,27 @@
 									<span class="kai-accordion-header__text">W041550</span>
 								</div>
 								<div class="kai-accordion-header__inner -right">
+									<div class="kai-accordion__elements">
+										<span class="kai-text -small -secondary">2025-01-05 16:01</span>
+										<!-- badge 
+													완료 -success 
+													진행중 -ing 
+													-->
+										<span class="kai-badge -line -success">
+											<span class="kai-badge__icon"></span>
+											<span class="kai-badge__text"><em>1</em>/1</span>
+										</span>
+									</div>
 									<button class="kai-accordion__toggle">
 										<span class="kai-icon -arrow-down"></span>
 									</button>
 								</div>
 							</div>
 							<div class="kai-accordion-content">
+
+								<!-- 언어별 -main, -compare 2개로 그룹입니다. 
+														번역 비교일때 -compare 영역이 보여집니다. -->
+								<!-- ko -->
 								<div class="kai-accordion-content__elements -main">
 									<div class="kai-label-code">
 										<label class="kai-checkbox">
@@ -898,11 +1095,14 @@
 										</label>
 										<span class="kai-label-code-text">ko</span>
 									</div>
-									<div class="kai-form-field">
-										<div class="kai-form-field__item-box">
-											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">보너스 좌석 알리미</textarea>
-										</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text">보너스 좌석 알리미</p>
 									</div>
+									<!-- <div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">보너스 좌석 알리미</textarea>
+																</div>
+															</div> -->
 								</div>
 								<div class="kai-accordion-content__elements -compare">
 									<div class="kai-label-code">
@@ -922,8 +1122,60 @@
 										<p class="kai-text -secondary">보너스 좌석 알리미</p>
 									</div>
 								</div>
+								<!-- // ko -->
+
+								<!-- en -->
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">en</span>
+										</label>
+										<span class="kai-label-code-text">en</span>
+									</div>
+									<div class="kai-review-switch-row">
+										<label class="kai-review-switch" for="en_4-1">
+											<input type="radio" name="review_en_4" value="after" id="en_4-1" checked>
+											<span class="kai-review-switch__text">리뷰 후</span>
+										</label>
+										<label class="kai-review-switch" for="en_4-2">
+											<input type="radio" name="review_en_4" value="before" id="en_4-2">
+											<span class="kai-review-switch__text">리뷰 전</span>
+										</label>
+										<span class="kai-review-text -review-after -show">Award Seat Notification Service</span>
+										<span class="kai-review-text -review-before">Award Seat Notification Service Before</span>
+									</div>
+									<!-- <div class="kai-form-field">
+																<div class="kai-form-field__item-box">
+																	<textarea class="kai-form-field__item" placeholder="입력하세요."
+																		rows="1">Change Complete | Korean Air</textarea>
+																</div>
+															</div> -->
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">Change Complete | Korean Air</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">ko</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">Change Complete | Korean Air</p>
+									</div>
+								</div>
+								<!-- // en -->
+
 							</div>
 						</div>
+
 						<div class="kai-accordion-item -open">
 							<div class="kai-accordion-header">
 								<div class="kai-accordion-header__inner -left">
@@ -935,12 +1187,29 @@
 									<span class="kai-accordion-header__text">W041551</span>
 								</div>
 								<div class="kai-accordion-header__inner -right">
+									<div class="kai-accordion__elements">
+										<!-- ing 는 날짜 없음 -->
+										<span class="kai-text -small -secondary">2025-01-05 16:01</span>
+										<!-- badge 
+											완료 -success 
+											진행중 -ing 
+											-->
+										<span class="kai-badge -line -success">
+											<span class="kai-badge__icon"></span>
+											<span class="kai-badge__text"><em>1</em>/1</span>
+										</span>
+									</div>
 									<button class="kai-accordion__toggle">
 										<span class="kai-icon -arrow-down"></span>
 									</button>
 								</div>
 							</div>
 							<div class="kai-accordion-content">
+
+								<!-- 언어별 -main, -compare 2개로 그룹입니다. 
+											번역 비교일때 -compare 영역이 보여집니다. -->
+
+								<!-- ko -->
 								<div class="kai-accordion-content__elements -main">
 									<div class="kai-label-code">
 										<label class="kai-checkbox">
@@ -950,11 +1219,14 @@
 										</label>
 										<span class="kai-label-code-text">ko</span>
 									</div>
-									<div class="kai-form-field">
-										<div class="kai-form-field__item-box">
-											<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">가는 달 ~ 오는 달</textarea>
-										</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text">가는 달 ~ 오는 달</p>
 									</div>
+									<!-- <div class="kai-form-field">
+												<div class="kai-form-field__item-box">
+													<textarea class="kai-form-field__item" placeholder="입력하세요." rows="1">가는 달 ~ 오는 달</textarea>
+												</div>
+											</div> -->
 								</div>
 								<div class="kai-accordion-content__elements -compare">
 									<div class="kai-label-code">
@@ -974,20 +1246,80 @@
 										<p class="kai-text -secondary">가는 달 ~ 오는 달</p>
 									</div>
 								</div>
+								<!-- // ko -->
+
+								<!-- en -->
+								<div class="kai-accordion-content__elements -main">
+									<div class="kai-label-code">
+										<label class="kai-checkbox">
+											<input type="checkbox" class="kai-checkbox__item" />
+											<span class="kai-icon -checkbox" aria-hidden="true"></span>
+											<span class="kai-checkbox__item-text">en</span>
+										</label>
+										<span class="kai-label-code-text">en</span>
+									</div>
+									<div class="kai-review-switch-row">
+										<label class="kai-review-switch" for="en_5-1">
+											<input type="radio" name="review_en_5" value="after" id="en_5-1" checked>
+											<span class="kai-review-switch__text">리뷰 후</span>
+										</label>
+										<label class="kai-review-switch" for="en_5-2">
+											<input type="radio" name="review_en_5" value="before" id="en_5-2">
+											<span class="kai-review-switch__text">리뷰 전</span>
+										</label>
+										<span class="kai-review-text -review-after -show">from ~ to</span>
+										<span class="kai-review-text -review-before">from ~ to</span>
+									</div>
+									<!-- <div class="kai-form-field">
+												<div class="kai-form-field__item-box">
+													<textarea class="kai-form-field__item" placeholder="입력하세요."
+														rows="1">from ~ to</textarea>
+												</div>
+											</div> -->
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">en</span>
+										<span class="kai-label-badge">WCM</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">from ~ to</p>
+									</div>
+								</div>
+								<div class="kai-accordion-content__elements -compare">
+									<div class="kai-label-code">
+										<span class="kai-code-text">en</span>
+										<span class="kai-label-badge">HP</span>
+									</div>
+									<div class="kai-language-text -text">
+										<p class="kai-text -secondary">from ~ to</p>
+									</div>
+								</div>
+								<!-- // en -->
+
 							</div>
 						</div>
+
+
 					</div>
 				</div>
 
-				<!-- 하단 플로팅 버튼이 있는 경우 영역 -->
-				<!-- <div class="kai-main-bottom">
+				<!-- kai-main-bottom 가 있으면 kai-layout 에 -bottom-on 클래스가 붙습니다. -->
+				<div class="kai-main-bottom">
 					<div class="kai-main-bottom__container">
 						<div class="kai-main-bottom__left">
-							<button type="button" class="kai-button -large -primary-line">리뷰요청</button>
+							<!-- <button type="button" class="kai-button -large -primary-line">리뷰상세</button> -->
 						</div>
 						<div class="kai-main-bottom__right">
-							<ul class="">
-								<li></li>
+							<ul class="kai-text-list -small -secondary">
+								<li>
+									<span class="kai-text-list__label">마지막 저장:</span>
+									<span class="kai-text-list__value">2025-01-05 16:01</span>
+								</li>
+								<li>
+									<span class="kai-text-list__label">마지막 반영:</span>
+									<span class="kai-text-list__value">2025-01-05 16:01</span>
+								</li>
 							</ul>
 							<div class="kai-button-group">
 								<button type="button" class="kai-button -large -primary-line">저장하기</button>
@@ -995,7 +1327,7 @@
 							</div>
 						</div>
 					</div>
-				</div> -->
+				</div>
 			</main>
 
 			<!-- 다이얼로그 -->
@@ -1020,10 +1352,11 @@
 									</div>
 									<div class="kai-form-field">
 										<div class="kai-form-field__item-box">
-											<input type="text" class="kai-form-field__item" placeholder="제목 입력 (한글 50자 이내).">
+											<input type="text" class="kai-form-field__item" placeholder="제목 입력 (한글 50자 이내)."
+												value="항공권 Step2 업데이트">
 										</div>
 									</div>
-									<p class="kai-text -error -small">제목을 입력 해주세요.</p>
+									<!-- <p class="kai-text -error -small">제목을 입력 해주세요.</p> -->
 								</div>
 							</div>
 							<div class="kai-modal__footer">

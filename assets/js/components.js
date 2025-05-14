@@ -1,41 +1,33 @@
 // Constants
-const DISABLED_OPACITY = 0.5;
-const SELECTORS = {
-    ACCORDION: {
-        HEADER: '.kai-accordion-header',
-        ITEM: '.kai-accordion-item',
-        CONTENT: '.kai-accordion-content'
+const disabledOpacity = 0.5;
+const selectors = {
+    accordion: {
+        header: '.kai-accordion-header',
+        item: '.kai-accordion-item',
+        content: '.kai-accordion-content'
     },
-    CHECKBOX: {
-        INPUT: '.kai-checkbox input',
-        GROUP: '.kai-checkbox__group[data-group]',
-        ALL: '.kai-checkbox.-all input[type="checkbox"]'
+    checkbox: {
+        input: '.kai-checkbox input',
+        group: '.kai-checkbox__group[data-group]',
+        all: '.kai-checkbox.-all-check input[type="checkbox"]'
     },
-    SELECT: {
-        CONTAINER: '.kai-custom-select',
-        TRIGGER: '.kai-custom-select__trigger',
-        OPTIONS: '.kai-custom-select__options',
-        OPTION: '.kai-custom-select__option',
-        TEXT: '.kai-custom-select__text'
-    },
-    PROGRESSBAR: {
-        PERCENT: '.kai-progressbar-percent',
-        BAR: '.kai-progressbar-bar',
-        SPINNER: '.kai-kai-progressbar-spinner',
-        INNER: '.kai-progressbar-bar__inner'
+    select: {
+        container: '.kai-custom-select',
+        trigger: '.kai-custom-select__trigger',
+        options: '.kai-custom-select__options',
+        option: '.kai-custom-select__option',
+        text: '.kai-custom-select__text'
     }
 };
 
 /**
- * Main initialization function
- * @function
+ *  메인 초기화
  */
 document.addEventListener('DOMContentLoaded', function () {
     initializeAccordion();
     initializeCheckboxes();
     initializeCustomSelect();
     initializeDisabledStates();
-    setupEventCleanup();
     ModalModule.init();
     ToggleButtonModule.init();
     ReviewSwitchModule.init();
@@ -43,16 +35,14 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /**
- * Accordion functionality
- * @module Accordion
+ * Accordion 
  */
 const AccordionModule = {
     init() {
-        // Event delegation for accordion headers
+        // 아코디언탑 클릭하면 오픈
         document.addEventListener('click', (e) => {
-            const header = e.target.closest(SELECTORS.ACCORDION.HEADER);
+            const header = e.target.closest(selectors.accordion.header);
             if (!header) {
-                // 폼 컨테이너 아코디언 처리
                 const formHeader = e.target.closest('.kai-form__container.-accordion .kai-form__top');
                 if (formHeader) {
                     const container = formHeader.closest('.kai-form__container');
@@ -62,18 +52,18 @@ const AccordionModule = {
                 return;
             }
 
-            const accordionItem = header.closest(SELECTORS.ACCORDION.ITEM);
+            const accordionItem = header.closest(selectors.accordion.item);
             if (accordionItem) {
                 accordionItem.classList.toggle('-open');
                 this.updateAccordionState();
             }
         });
 
-        // Initialize accordion switch
+        // 상단 전체열기 클릭시 모든 아코디언 오픈
         const allAccordionSwitch = document.querySelector('.kai-switch[data-control="all-accordion"] input');
         if (allAccordionSwitch) {
             allAccordionSwitch.addEventListener('change', (e) => {
-                const accordionItems = document.querySelectorAll(SELECTORS.ACCORDION.ITEM);
+                const accordionItems = document.querySelectorAll(selectors.accordion.item);
                 accordionItems.forEach(item => item.classList.toggle('-open', e.target.checked));
             });
         }
@@ -81,7 +71,7 @@ const AccordionModule = {
 
     updateAccordionState() {
         try {
-            const allAccordions = document.querySelectorAll(SELECTORS.ACCORDION.ITEM);
+            const allAccordions = document.querySelectorAll(selectors.accordion.item);
             const allOpen = Array.from(allAccordions).every(item => item.classList.contains('-open'));
             const switchInput = document.querySelector('.kai-switch[data-control="all-accordion"] input');
             if (switchInput) {
@@ -94,8 +84,7 @@ const AccordionModule = {
 };
 
 /**
- * Checkbox functionality
- * @module Checkbox
+ * Checkbox 
  */
 const CheckboxModule = {
     init() {
@@ -104,11 +93,11 @@ const CheckboxModule = {
     },
 
     setupCheckboxGroups() {
-        const groups = document.querySelectorAll(SELECTORS.CHECKBOX.GROUP);
+        const groups = document.querySelectorAll(selectors.checkbox.group);
         groups.forEach(group => {
             const groupName = group.getAttribute('data-group');
-            const allCheckbox = group.querySelector(SELECTORS.CHECKBOX.ALL);
-            const otherCheckboxes = group.querySelectorAll(`${SELECTORS.CHECKBOX.INPUT}:not(.-all)`);
+            const allCheckbox = group.querySelector(selectors.checkbox.all);
+            const otherCheckboxes = group.querySelectorAll(`${selectors.checkbox.input}:not(.-all-check)`);
 
             if (allCheckbox) {
                 this.setupGroupCheckboxes(allCheckbox, otherCheckboxes, groupName);
@@ -139,7 +128,7 @@ const CheckboxModule = {
             toggleAll.addEventListener('change', (e) => {
                 const isChecked = e.target.checked;
                 e.target.closest('.kai-toggle-button').classList.toggle('-active', isChecked);
-                document.querySelectorAll(`${SELECTORS.ACCORDION.ITEM} ${SELECTORS.CHECKBOX.INPUT}`)
+                document.querySelectorAll(`${selectors.accordion.item} ${selectors.checkbox.input}:not(.-all-check)`)
                     .forEach(checkbox => checkbox.checked = isChecked);
             });
         }
@@ -147,7 +136,7 @@ const CheckboxModule = {
 
     updateCheckboxState(checkbox, groupName) {
         try {
-            // 체크박스 상태 업데이트 로직
+            // 체크박스 상태 업데이트
             const event = new CustomEvent('checkboxStateChange', {
                 detail: { checkbox, groupName, checked: checkbox.checked }
             });
@@ -159,8 +148,7 @@ const CheckboxModule = {
 };
 
 /**
- * Custom Select functionality
- * @module CustomSelect
+ * Custom Select 
  */
 const CustomSelectModule = {
     init() {
@@ -172,10 +160,10 @@ const CustomSelectModule = {
 
     setupSelectTriggers() {
         document.addEventListener('click', (e) => {
-            const trigger = e.target.closest(SELECTORS.SELECT.TRIGGER);
+            const trigger = e.target.closest(selectors.select.trigger);
             if (!trigger) return;
 
-            const select = trigger.closest(SELECTORS.SELECT.CONTAINER);
+            const select = trigger.closest(selectors.select.container);
             const formField = select?.closest('.kai-form-field');
 
             if (select && !StateManager.isDisabled(select) && !StateManager.isDisabled(formField)) {
@@ -186,14 +174,14 @@ const CustomSelectModule = {
 
     setupSelectOptions() {
         document.addEventListener('click', (e) => {
-            const option = e.target.closest(SELECTORS.SELECT.OPTION);
+            const option = e.target.closest(selectors.select.option);
             if (!option) return;
 
-            const select = option.closest(SELECTORS.SELECT.CONTAINER);
+            const select = option.closest(selectors.select.container);
             if (!select || option.getAttribute('data-disabled') === 'true') return;
 
             const isMultiple = select.classList.contains('-multiple');
-            const textElement = select.querySelector(SELECTORS.SELECT.TEXT);
+            const textElement = select.querySelector(selectors.select.text);
 
             // 멀티 셀렉트의 경우 체크박스 클릭 이벤트 처리
             if (isMultiple && e.target.closest('input[type="checkbox"]')) {
@@ -209,7 +197,7 @@ const CustomSelectModule = {
 
     setupClickOutside() {
         document.addEventListener('click', (e) => {
-            if (!e.target.closest(SELECTORS.SELECT.CONTAINER)) {
+            if (!e.target.closest(selectors.select.container)) {
                 this.closeAllSelects();
             }
         });
@@ -217,7 +205,7 @@ const CustomSelectModule = {
 
     setupKeyboardNavigation() {
         document.addEventListener('keydown', (e) => {
-            const select = e.target.closest(SELECTORS.SELECT.CONTAINER);
+            const select = e.target.closest(selectors.select.container);
             if (!select) return;
 
             switch (e.key) {
@@ -240,13 +228,13 @@ const CustomSelectModule = {
         const isOpen = select.getAttribute('data-open') === 'true';
         this.closeAllSelects();
         select.setAttribute('data-open', !isOpen);
-        select.querySelector(SELECTORS.SELECT.OPTIONS)?.setAttribute('data-open', !isOpen);
+        select.querySelector(selectors.select.options)?.setAttribute('data-open', !isOpen);
     },
 
     closeAllSelects() {
-        document.querySelectorAll(SELECTORS.SELECT.CONTAINER).forEach(select => {
+        document.querySelectorAll(selectors.select.container).forEach(select => {
             select.setAttribute('data-open', 'false');
-            select.querySelector(SELECTORS.SELECT.OPTIONS)?.setAttribute('data-open', 'false');
+            select.querySelector(selectors.select.options)?.setAttribute('data-open', 'false');
         });
     },
 
@@ -260,8 +248,8 @@ const CustomSelectModule = {
         option.setAttribute('data-selected', (!isSelected).toString());
 
         // 선택된 옵션 텍스트 업데이트
-        const allOptions = select.querySelectorAll(SELECTORS.SELECT.OPTION);
-        const selectedOptions = select.querySelectorAll(`${SELECTORS.SELECT.OPTION}[data-selected="true"]`);
+        const allOptions = select.querySelectorAll(selectors.select.option);
+        const selectedOptions = select.querySelectorAll(`${selectors.select.option}[data-selected="true"]`);
         const selectedCount = selectedOptions.length;
         const totalCount = allOptions.length;
 
@@ -294,7 +282,7 @@ const CustomSelectModule = {
 
     handleSingleSelect(option, select, textElement) {
         // 기존 선택 해제
-        select.querySelectorAll(SELECTORS.SELECT.OPTION).forEach(opt => {
+        select.querySelectorAll(selectors.select.option).forEach(opt => {
             opt.setAttribute('data-selected', 'false');
             const checkbox = opt.querySelector('input[type="checkbox"]');
             if (checkbox) checkbox.checked = false;
@@ -324,8 +312,8 @@ const CustomSelectModule = {
     },
 
     handleArrowNavigation(select, isDown) {
-        const options = Array.from(select.querySelectorAll(`${SELECTORS.SELECT.OPTION}:not([data-disabled="true"])`));
-        const currentOption = select.querySelector(`${SELECTORS.SELECT.OPTION}[data-selected="true"]`);
+        const options = Array.from(select.querySelectorAll(`${selectors.select.option}:not([data-disabled="true"])`));
+        const currentOption = select.querySelector(`${selectors.select.option}[data-selected="true"]`);
         let currentIndex = options.indexOf(currentOption);
 
         if (currentIndex === -1) {
@@ -338,7 +326,7 @@ const CustomSelectModule = {
 
         const nextOption = options[nextIndex];
         if (nextOption) {
-            const textElement = select.querySelector(SELECTORS.SELECT.TEXT);
+            const textElement = select.querySelector(selectors.select.text);
             if (select.classList.contains('-multiple')) {
                 this.handleMultipleSelect(nextOption, select, textElement);
             } else {
@@ -350,10 +338,10 @@ const CustomSelectModule = {
 
     handleEnterSpace(select, event) {
         event.preventDefault();
-        const option = event.target.closest(SELECTORS.SELECT.OPTION);
+        const option = event.target.closest(selectors.select.option);
         if (!option) return;
 
-        const textElement = select.querySelector(SELECTORS.SELECT.TEXT);
+        const textElement = select.querySelector(selectors.select.text);
         if (select.classList.contains('-multiple')) {
             this.handleMultipleSelect(option, select, textElement);
         } else {
@@ -363,9 +351,8 @@ const CustomSelectModule = {
 };
 
 /**
- * State Management
- * @module StateManager
- */
+ * 상태관리 -disabled 클래스일때 아이템 disabled 처리
+ */ 
 const StateManager = {
     init() {
         this.setupDisabledHandlers();
@@ -375,7 +362,7 @@ const StateManager = {
     isDisabled(element) {
         if (!element) return false;
         return element.classList.contains('-disabled') ||
-               element.classList.contains('-aria-disabled') ||
+               element.classList.contains('-disabled') ||
                element.hasAttribute('disabled');
     },
 
@@ -395,32 +382,11 @@ const StateManager = {
 
         if (element.classList.contains('kai-icon-button')) {
             element.style.pointerEvents = isDisabled ? 'none' : 'auto';
-            element.style.opacity = isDisabled ? DISABLED_OPACITY : '1';
+            element.style.opacity = isDisabled ? disabledOpacity : '1';
         }
 
-        // Update ARIA attributes
+        // ARIA diabled
         element.setAttribute('aria-disabled', isDisabled);
-    },
-
-    setAriaDisabled(element, isDisabled) {
-        if (!element) return;
-
-        const className = '-aria-disabled';
-        element.classList.toggle(className, isDisabled);
-        element.setAttribute('aria-disabled', isDisabled);
-        element.toggleAttribute('disabled', isDisabled);
-
-        // 모든 입력 요소와 버튼 ARIA 상태 업데이트
-        const inputs = element.querySelectorAll('input, select, textarea, button');
-        inputs.forEach(input => {
-            input.setAttribute('aria-disabled', isDisabled);
-            input.toggleAttribute('disabled', isDisabled);
-        });
-
-        if (element.classList.contains('kai-icon-button')) {
-            element.style.pointerEvents = isDisabled ? 'none' : 'auto';
-            element.style.opacity = isDisabled ? DISABLED_OPACITY : '1';
-        }
     },
 
     setupDisabledHandlers() {
@@ -451,18 +417,19 @@ const StateManager = {
             if (button.classList.contains('-disabled')) {
                 this.setDisabled(button, true);
             }
-            if (button.classList.contains('-aria-disabled')) {
-                this.setAriaDisabled(button, true);
-            }
         });
 
         // 폼 필드 초기화
         document.querySelectorAll('.kai-form-field').forEach(field => {
-            if (field.dataset.disabled === 'true') {
+            if (field.classList.contains('-disabled')) {
                 this.setDisabled(field, true);
             }
-            if (field.dataset.ariaDisabled === 'true') {
-                this.setAriaDisabled(field, true);
+        });
+
+        // 폼 필드 아이템 박스 초기화
+        document.querySelectorAll('.kai-form-field__item-box').forEach(box => {
+            if (box.classList.contains('-disabled')) {
+                this.setDisabled(box, true);
             }
         });
 
@@ -471,9 +438,6 @@ const StateManager = {
             if (checkbox.classList.contains('-disabled')) {
                 this.setDisabled(checkbox, true);
             }
-            if (checkbox.classList.contains('-aria-disabled')) {
-                this.setAriaDisabled(checkbox, true);
-            }
         });
 
         // 커스텀 셀렉트 초기화
@@ -481,125 +445,12 @@ const StateManager = {
             if (select.classList.contains('-disabled')) {
                 this.setDisabled(select, true);
             }
-            if (select.classList.contains('-aria-disabled')) {
-                this.setAriaDisabled(select, true);
-            }
         });
     }
 };
 
 /**
- * Progress Bar functionality
- * @module ProgressBar
- */
-const ProgressBarModule = {
-    setProgress(percent) {
-        try {
-            const elements = {
-                percentEl: document.querySelector(SELECTORS.PROGRESSBAR.PERCENT),
-                barEl: document.querySelector(SELECTORS.PROGRESSBAR.BAR),
-                spinnerEl: document.querySelector(SELECTORS.PROGRESSBAR.SPINNER),
-                innerEl: document.querySelector(SELECTORS.PROGRESSBAR.INNER)
-            };
-
-            if (!elements.percentEl || !elements.barEl || !elements.spinnerEl || !elements.innerEl) {
-                throw new Error('Required progress bar elements not found');
-            }
-
-            elements.percentEl.textContent = `${percent}%`;
-            elements.barEl.style.display = 'block';
-            elements.spinnerEl.style.display = 'none';
-            elements.innerEl.style.width = `${percent}%`;
-
-            // Update ARIA attributes
-            elements.barEl.setAttribute('aria-valuenow', percent);
-            elements.barEl.setAttribute('aria-valuetext', `${percent}% complete`);
-        } catch (error) {
-            console.error('Error updating progress:', error);
-        }
-    }
-};
-
-/**
- * Event cleanup functionality
- * @module EventCleanup
- */
-function setupEventCleanup() {
-    const cleanup = () => {
-        // Remove all event listeners when the component is destroyed
-        document.querySelectorAll(SELECTORS.SELECT.TRIGGER).forEach(trigger => {
-            trigger.removeEventListener('click', null);
-        });
-        // Add other cleanup logic as needed
-    };
-
-    // Example: Clean up when the page unloads
-    window.addEventListener('unload', cleanup);
-}
-
-/**
- * Modal functionality
- * @module Modal
- */
-const ModalModule = {
-    init() {
-        this.setupModalTriggers();
-        this.setupCloseButtons();
-        this.setupOutsideClicks();
-    },
-
-    setupModalTriggers() {
-        document.querySelectorAll('[data-modal]').forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                const modalId = trigger.getAttribute('data-modal');
-                const modalRoot = document.querySelector(`#${modalId}`).closest('.kai-modal-root');
-                this.openModal(modalRoot);
-            });
-        });
-    },
-
-    setupCloseButtons() {
-        document.querySelectorAll('.kai-modal__close, .kai-modal__button-close').forEach(button => {
-            button.addEventListener('click', () => {
-                const modalRoot = button.closest('.kai-modal-root');
-                this.closeModal(modalRoot);
-            });
-        });
-
-        // 마스크 클릭시 닫기
-        document.querySelectorAll('.kai-modal__mask').forEach(mask => {
-            mask.addEventListener('click', () => {
-                const modalRoot = mask.closest('.kai-modal-root');
-                this.closeModal(modalRoot);
-            });
-        });
-    },
-
-    setupOutsideClicks() {
-        document.querySelectorAll('.kai-modal-item').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    const modalRoot = modal.closest('.kai-modal-root');
-                    this.closeModal(modalRoot);
-                }
-            });
-        });
-    },
-
-    openModal(modalRoot) {
-        if (!modalRoot) return;
-        modalRoot.setAttribute('data-open', 'true');
-    },
-
-    closeModal(modalRoot) {
-        if (!modalRoot) return;
-        modalRoot.setAttribute('data-open', 'false');
-    }
-};
-
-/**
- * Toggle Button functionality
- * @module ToggleButton
+ * Toggle Button 
  */
 const ToggleButtonModule = {
     init() {
@@ -697,8 +548,7 @@ const ToggleButtonModule = {
 };
 
 /**
- * Review Switch functionality
- * @module ReviewSwitch
+ * 리뷰 Switch 
  */
 const ReviewSwitchModule = {
     init() {
@@ -742,54 +592,42 @@ const ReviewSwitchModule = {
 };
 
 /**
- * Textarea functionality
- * @module Textarea
+ * Textarea 
  */
 const TextareaModule = {
     init() {
-        this.setupTextareaAutoHeight();
+        // -fixed-height가 없는 textarea만 선택
+        document.querySelectorAll('.kai-form-field__item:not(.kai-form-field__item-box.-fixed-height textarea)').forEach(textarea => {
+            this.setupTextareaAutoHeight(textarea);
+        });
         this.setupResizeListener();
     },
 
-    setupTextareaAutoHeight() {
-        document.querySelectorAll('.kai-form-field__item').forEach(textarea => {
-            const parentBox = textarea.closest('.kai-form-field__item-box');
-            // -fixed-height 클래스가 있는 경우 이벤트 리스너를 추가하지 않음
-            if (parentBox?.classList.contains('-fixed-height')) {
-                return;
-            }
-            
-            // 초기 높이 설정
-            this.adjustHeight(textarea);
-            
-            // input 이벤트로 높이 자동 조절
-            textarea.addEventListener('input', () => this.adjustHeight(textarea));
-        });
+    setupTextareaAutoHeight(textarea) {
+        // 초기 높이 설정
+        this.adjustHeight(textarea);
+        
+        // input 이벤트로 높이 자동 조절
+        textarea.addEventListener('input', () => this.adjustHeight(textarea));
     },
 
     setupResizeListener() {
         // resize 이벤트로 높이 자동 조절
         window.addEventListener('resize', () => {
-            document.querySelectorAll('.kai-form-field__item').forEach(textarea => {
-                const parentBox = textarea.closest('.kai-form-field__item-box');
-                if (!parentBox?.classList.contains('-fixed-height')) {
-                    this.adjustHeight(textarea);
-                }
+            document.querySelectorAll('.kai-form-field__item:not(.kai-form-field__item-box.-fixed-height textarea)').forEach(textarea => {
+                this.adjustHeight(textarea);
             });
         });
     },
 
     adjustHeight(textarea) {
-        const parentBox = textarea.closest('.kai-form-field__item-box');
-        if (!parentBox) return;
-        
         // 높이 재설정
         textarea.style.height = 'auto';
         textarea.style.height = textarea.scrollHeight + 'px';
     }
 };
 
-// Tag removal functionality
+// Tag 삭제 
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('kai-tag__remove')) {
         const tag = e.target.closest('.kai-tag');
@@ -797,38 +635,75 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Date and Time picker functionality
-document.querySelectorAll('.kai-form-field__item-box input[type="date"], .kai-form-field__item-box input[type="time"]').forEach(input => {
-    input.addEventListener('click', () => {
-        input.showPicker?.();
-    });
-});
-
-// Initialize all modules
+// Initialize all 
 function initializeAccordion() {
     AccordionModule.init();
 }
-
 function initializeCheckboxes() {
     CheckboxModule.init();
 }
-
 function initializeCustomSelect() {
     CustomSelectModule.init();
 }
-
 function initializeDisabledStates() {
     StateManager.init();
 }
 
-// Export modules for testing or external use if needed
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        AccordionModule,
-        CheckboxModule,
-        CustomSelectModule,
-        StateManager,
-        ProgressBarModule,
-        TextareaModule
-    };
-}
+/**
+ * Modal 
+ */
+const ModalModule = {
+    init() {
+        this.setupModalTriggers();
+        this.setupCloseButtons();
+        this.setupOutsideClicks();
+    },
+
+    setupModalTriggers() {
+        document.querySelectorAll('[data-modal]').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const modalId = trigger.getAttribute('data-modal');
+                const modalRoot = document.querySelector(`#${modalId}`).closest('.kai-modal-root');
+                this.openModal(modalRoot);
+            });
+        });
+    },
+
+    setupCloseButtons() {
+        document.querySelectorAll('.kai-modal__close, .kai-modal__button-close').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalRoot = button.closest('.kai-modal-root');
+                this.closeModal(modalRoot);
+            });
+        });
+
+        // 마스크 클릭시 닫기
+        document.querySelectorAll('.kai-modal__mask').forEach(mask => {
+            mask.addEventListener('click', () => {
+                const modalRoot = mask.closest('.kai-modal-root');
+                this.closeModal(modalRoot);
+            });
+        });
+    },
+
+    setupOutsideClicks() {
+        document.querySelectorAll('.kai-modal-item').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    const modalRoot = modal.closest('.kai-modal-root');
+                    this.closeModal(modalRoot);
+                }
+            });
+        });
+    },
+
+    openModal(modalRoot) {
+        if (!modalRoot) return;
+        modalRoot.setAttribute('data-open', 'true');
+    },
+
+    closeModal(modalRoot) {
+        if (!modalRoot) return;
+        modalRoot.setAttribute('data-open', 'false');
+    }
+};

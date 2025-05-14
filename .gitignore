@@ -7,4 +7,4 @@ node_modules/
 .env.production.local
 .vscode/
 .cursor/
-*.log 
+*.log

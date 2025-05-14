@@ -90,6 +90,7 @@ const CheckboxModule = {
     init() {
         this.setupCheckboxGroups();
         this.setupGlobalCheckboxes();
+        this.setupAccordionCheckboxes();
     },
 
     setupCheckboxGroups() {
@@ -128,9 +129,66 @@ const CheckboxModule = {
             toggleAll.addEventListener('change', (e) => {
                 const isChecked = e.target.checked;
                 e.target.closest('.kai-toggle-button').classList.toggle('-active', isChecked);
-                document.querySelectorAll(`${selectors.accordion.item} ${selectors.checkbox.input}:not(.-all-check)`)
-                    .forEach(checkbox => checkbox.checked = isChecked);
+                
+                // 모든 아코디언 헤더의 체크박스와 내용의 체크박스들을 제어
+                document.querySelectorAll('.kai-accordion-group .kai-accordion-header__inner input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
+                document.querySelectorAll('.kai-accordion-group .kai-accordion-content__elements input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = isChecked;
+                });
             });
+        }
+    },
+
+    setupAccordionCheckboxes() {
+        // 각 아코디언 헤더의 체크박스 설정
+        document.querySelectorAll('.kai-accordion-group .kai-accordion-header__inner input[type="checkbox"]').forEach(headerCheckbox => {
+            headerCheckbox.addEventListener('change', (e) => {
+                const isChecked = e.target.checked;
+                const accordionItem = headerCheckbox.closest('.kai-accordion-item');
+                
+                // 해당 아코디언의 내용에 있는 모든 체크박스 제어
+                if (accordionItem) {
+                    const contentCheckboxes = accordionItem.querySelectorAll('.kai-accordion-content__elements input[type="checkbox"]');
+                    contentCheckboxes.forEach(checkbox => {
+                        checkbox.checked = isChecked;
+                    });
+                }
+
+                // 모든 체크박스가 체크되었는지 확인하여 최상위 체크박스 상태 업데이트
+                this.updateGlobalCheckboxState();
+            });
+        });
+
+        // 아코디언 내용의 체크박스들 설정
+        document.querySelectorAll('.kai-accordion-group .kai-accordion-content__elements input[type="checkbox"]').forEach(contentCheckbox => {
+            contentCheckbox.addEventListener('change', () => {
+                const accordionItem = contentCheckbox.closest('.kai-accordion-item');
+                if (accordionItem) {
+                    const headerCheckbox = accordionItem.querySelector('.kai-accordion-header__inner input[type="checkbox"]');
+                    const contentCheckboxes = accordionItem.querySelectorAll('.kai-accordion-content__elements input[type="checkbox"]');
+                    
+                    // 모든 체크박스가 체크되었는지 확인
+                    const allChecked = Array.from(contentCheckboxes).every(cb => cb.checked);
+                    if (headerCheckbox) {
+                        headerCheckbox.checked = allChecked;
+                    }
+                }
+
+                // 모든 체크박스가 체크되었는지 확인하여 최상위 체크박스 상태 업데이트
+                this.updateGlobalCheckboxState();
+            });
+        });
+    },
+
+    updateGlobalCheckboxState() {
+        const toggleAll = document.querySelector('.kai-toggle-button[data-control="all-items"] input');
+        if (toggleAll) {
+            const allCheckboxes = document.querySelectorAll('.kai-accordion-group .kai-accordion-content__elements input[type="checkbox"]');
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            toggleAll.checked = allChecked;
+            toggleAll.closest('.kai-toggle-button').classList.toggle('-active', allChecked);
         }
     },
 
